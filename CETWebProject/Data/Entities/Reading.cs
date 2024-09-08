@@ -14,5 +14,6 @@ namespace CETWebProject.Data.Entities
 
         [Display(Name = "Reading date")]
         public DateTime dataDeLeitura { get; set; }
+
     }
 }
