@@ -12,6 +12,8 @@ namespace CETWebProject.Data
         {
         }
 
-        public DbSet<Reading> MonthlyReadings { get; set; }
+        public DbSet<Reading> monthlyReadings { get; set; }
+
+        public DbSet<WaterMeter> waterMeters { get; set; }
     }
 }
