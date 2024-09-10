@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CETWebProject.Data.Entities
 {
-    public class Reading
+    public class Reading : IEntity
     {
         public int Id { get; set; }
 

@@ -1,6 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using CETWebProject.Helpers;
+using CETWebProject.Data.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using System.Linq;
 
 namespace CETWebProject.Data
 {
@@ -8,15 +12,58 @@ namespace CETWebProject.Data
     {
         private readonly DataContext _context;
         private Random _random;
-        public SeedDb(DataContext context)
+        private readonly IUserHelper _userHelper;
+        private readonly IWaterMeterRepository _waterMeterRepository;
+        public SeedDb(DataContext context, IUserHelper userHelper, IWaterMeterRepository waterMeterRepository)
         {
             _context = context;
             _random = new Random();
+            _userHelper = userHelper;
+            _waterMeterRepository = waterMeterRepository;
         }
 
         public async Task SeedAsync()
         {
             await _context.Database.MigrateAsync();
+
+            var user = await _userHelper.GetUserByEmailAsync("email@email.com");
+
+            if (user == null) 
+            {
+                user = new User
+                {
+                    FirstName = "Teste",
+                    LastName = "Etset",
+                    Email = "email@email.com",
+                    UserName = "email@email.com",
+                    PhoneNumber = "1234567890",
+                    Address = "Morada 1234-123",
+                    SignUpDateTime = DateTime.Now,
+                };
+                var result = await _userHelper.AddUserAsync(user, "123456");
+
+                if (result != IdentityResult.Success)
+                {
+                    throw new InvalidOperationException("Couldn't create the user in seeder");
+                }
+            }
+
+
+            if (!_context.waterMeters.Any())
+            {
+                AddMeter(user);
+                await _context.SaveChangesAsync();
+            }
+
+            var test = await _waterMeterRepository.GetWaterMetersByUserIdAsync("email@email.com");
+        }
+
+        private void AddMeter(User user) 
+        {
+            _context.waterMeters.Add(new WaterMeter
+            {
+                User = user
+            });
         }
     }
 }

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CETWebProject.Data.Entities
 {
-    public class WaterMeter
+    public class WaterMeter : IEntity
     {
         public int Id { get; set; }
 
