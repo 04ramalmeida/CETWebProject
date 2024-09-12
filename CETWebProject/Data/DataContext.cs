@@ -3,6 +3,7 @@
 using CETWebProject.Data.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using CETWebProject.Models;
 
 namespace CETWebProject.Data
 {
@@ -15,5 +16,7 @@ namespace CETWebProject.Data
         public DbSet<Reading> monthlyReadings { get; set; }
 
         public DbSet<WaterMeter> waterMeters { get; set; }
+
+        public DbSet<CETWebProject.Models.AddReadingViewModel> AddReadingViewModel { get; set; }
     }
 }

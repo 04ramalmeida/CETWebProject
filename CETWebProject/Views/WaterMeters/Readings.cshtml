@@ -1,0 +1,55 @@
+﻿@model IEnumerable<CETWebProject.Data.Entities.Reading>
+
+@{
+    ViewData["Title"] = "Readings";
+}
+
+<h1>Readings</h1>
+
+<p>
+    <a asp-action="AddReading">Adicionar leitura</a>
+</p>
+@if (Model.Count() > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.usageAmount)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ReadingTime)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.usageAmount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ReadingTime)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+} else
+{
+        <p>Não existem leituras</p>
+}

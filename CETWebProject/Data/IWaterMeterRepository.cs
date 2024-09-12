@@ -1,11 +1,23 @@
-﻿using CETWebProject.Data.Entities;
+﻿using System.Collections.Generic;
+using CETWebProject.Data.Entities;
 using System.Linq;
 using System.Threading.Tasks;
+using CETWebProject.Models;
 
 namespace CETWebProject.Data
 {
     public interface IWaterMeterRepository : IGenericRepository<WaterMeter>
     {
-        Task<IQueryable<WaterMeter>> GetWaterMetersByUserIdAsync(string userName);
+        Task<ICollection<WaterMeter>> GetWaterMetersByUserAsync(string userName);
+
+        Task AddWaterMeterAsync(string userName);
+
+        Task DeleteWaterMeterAsync(int meterId);
+
+        Task AddReadingAsync(int meterId, AddReadingViewModel model);
+
+        Task<ICollection<Reading>> GetReadingByMeterIdAsync(int meterId); // Replace
+
+        Task<WaterMeter> GetWaterMeterWithCities(int id);
     }
 }

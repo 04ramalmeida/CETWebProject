@@ -1,5 +1,6 @@
 ﻿using CETWebProject.Helpers;
 using CETWebProject.Data.Entities;
+using CETWebProject.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading.Tasks;
@@ -54,8 +55,7 @@ namespace CETWebProject.Data
                 AddMeter(user);
                 await _context.SaveChangesAsync();
             }
-
-            var test = await _waterMeterRepository.GetWaterMetersByUserIdAsync("email@email.com");
+            
         }
 
         private void AddMeter(User user) 

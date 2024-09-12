@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace CETWebProject.Data
@@ -8,6 +9,7 @@ namespace CETWebProject.Data
         Task CreateAsync(T entity);
         //Read
         Task<T> GetByIdAsync(int id);
+
         //Update
         Task UpdateAsync(T entity);
         //Delete

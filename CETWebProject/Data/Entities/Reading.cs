@@ -9,11 +9,11 @@ namespace CETWebProject.Data.Entities
         public int Id { get; set; }
 
         [Display(Name = "Amount of consumed water")]
-        [DisplayFormat(DataFormatString = "{0:C2}", ApplyFormatInEditMode = false)]
+        [DisplayFormat(DataFormatString = "{0:F2}", ApplyFormatInEditMode = false)]
         public double usageAmount { get; set; }
 
-        [Display(Name = "Reading date")]
-        public DateTime dataDeLeitura { get; set; }
+        [Display(Name = "Reading time")]
+        public DateTime ReadingTime { get; set; }
 
     }
 }

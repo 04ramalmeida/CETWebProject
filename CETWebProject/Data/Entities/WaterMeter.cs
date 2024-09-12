@@ -7,9 +7,8 @@ namespace CETWebProject.Data.Entities
     {
         public int Id { get; set; }
 
-        public IEnumerable<Reading> Readings { get; set; }
+        public ICollection<Reading> Readings { get; set; } = new List<Reading>();
 
-        [Required]
         public User User { get; set; }
     }
 }
