@@ -42,7 +42,7 @@ namespace CETWebProject.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? id)//Unfinished
         {
             if (id == null)
             {
@@ -52,7 +52,7 @@ namespace CETWebProject.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> AddReading(int? id)
+        public async Task<IActionResult> AddReading(int? id)//To Be Done
         {
             if (id == null)
             {
