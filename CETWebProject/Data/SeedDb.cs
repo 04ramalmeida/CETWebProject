@@ -3,6 +3,7 @@ using CETWebProject.Data.Entities;
 using CETWebProject.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using System.Linq;
@@ -62,7 +63,15 @@ namespace CETWebProject.Data
         {
             _context.waterMeters.Add(new WaterMeter
             {
-                User = user
+                User = user,
+                Readings = new List<Reading>
+                {
+                    new Reading
+                    {
+                        ReadingTime = DateTime.Now,
+                        UsageAmount = 0.01
+                    }
+                }
             });
         }
     }

@@ -10,10 +10,12 @@ namespace CETWebProject.Data.Entities
 
         [Display(Name = "Amount of consumed water")]
         [DisplayFormat(DataFormatString = "{0:F2}", ApplyFormatInEditMode = false)]
-        public double usageAmount { get; set; }
+        public double UsageAmount { get; set; }
 
         [Display(Name = "Reading time")]
         public DateTime ReadingTime { get; set; }
+        
+        public WaterMeter WaterMeter { get; set; }
 
     }
 }

@@ -1,4 +1,4 @@
-﻿@model CETWebProject.Data.Entities.WaterMeter
+@model CETWebProject.Data.Entities.WaterMeter
 
 @{
     ViewData["Title"] = "Details";
@@ -6,12 +6,15 @@
 
 <h1>Details</h1>
 
-<div>
-    <h4>WaterMeter</h4>
-    <hr />
-    <dl class="row">
-    </dl>
 
+<div>
+    <h3>Readings</h3>
+    <p>
+        <a asp-action="AddReading" asp-route-id="@Model.Id">Add a new reading</a>
+    </p>
+    @{
+        Html.RenderPartial("_ReadingList", Model.Readings);
+    }
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |

@@ -32,7 +32,7 @@ namespace CETWebProject.Data
             meter.Readings.Add(new Reading
             {
                 ReadingTime = DateTime.Now,
-                usageAmount = model.UsageAmount,
+                UsageAmount = model.UsageAmount,
             });
             await _context.SaveChangesAsync();
         }
@@ -70,11 +70,44 @@ namespace CETWebProject.Data
                 .OrderBy(m => m.Id).ToList();
         }
 
-        public async Task<WaterMeter> GetWaterMeterWithCities(int id)
+        public async Task<WaterMeter> GetWaterMeterWithReadings(int id)
         {
             return await _context.waterMeters.Where(m => m.Id == id)
                 .Include(m => m.Readings)
                 .FirstOrDefaultAsync();
+        }
+
+        public async Task<Reading> GetReadingByIdAsync(int id)
+        {
+            return await _context.monthlyReadings.Where(m => m.Id == id)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task UpdateReading(Reading reading)
+        {
+            var meter = await _context.waterMeters.FindAsync(GetMeterIdByReading(reading));
+            if (meter == null)
+            {
+                return;
+            }
+
+            _context.monthlyReadings.Update(reading);
+            await _context.SaveChangesAsync();
+        }
+
+        public int GetMeterIdByReading(Reading reading)
+        {
+            return _context.monthlyReadings
+                .Where(r => r.Id == reading.Id)
+                .Select(r => r.WaterMeter)
+                .FirstOrDefault().Id;
+        }
+
+        public async Task DeleteReadingAsync(Reading reading)
+        {
+            
+            _context.Set<Reading>().Remove(reading);
+            await SaveAllAsync();
         }
     }
 }

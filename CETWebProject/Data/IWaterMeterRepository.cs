@@ -16,8 +16,14 @@ namespace CETWebProject.Data
 
         Task AddReadingAsync(int meterId, AddReadingViewModel model);
 
-        Task<ICollection<Reading>> GetReadingByMeterIdAsync(int meterId); // Replace
-
-        Task<WaterMeter> GetWaterMeterWithCities(int id);
+        Task<WaterMeter> GetWaterMeterWithReadings(int id);
+        
+        Task<Reading> GetReadingByIdAsync(int id);
+        
+        Task UpdateReading (Reading reading);
+        
+        int GetMeterIdByReading (Reading reading);
+        
+        Task DeleteReadingAsync (Reading reading);
     }
 }
