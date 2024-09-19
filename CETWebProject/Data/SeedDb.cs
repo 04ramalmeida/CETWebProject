@@ -28,6 +28,10 @@ namespace CETWebProject.Data
         {
             await _context.Database.MigrateAsync();
 
+            await _userHelper.CheckRoleAsync("Admin");
+            await _userHelper.CheckRoleAsync("Employee");
+            await _userHelper.CheckRoleAsync("Customer");
+
             var user = await _userHelper.GetUserByEmailAsync("email@email.com");
 
             if (user == null) 
@@ -48,6 +52,13 @@ namespace CETWebProject.Data
                 {
                     throw new InvalidOperationException("Couldn't create the user in seeder");
                 }
+            }
+
+            var isInRole = await _userHelper.IsUserInRoleAsync(user, "Admin");
+
+            if (!isInRole)
+            {
+                await _userHelper.AddUserToRoleAsync(user, "Admin");
             }
 
 
