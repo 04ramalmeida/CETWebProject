@@ -17,6 +17,8 @@ namespace CETWebProject.Data
 
         public DbSet<WaterMeter> waterMeters { get; set; }
 
+        public DbSet<Invoice> invoices { get; set; }
+
         public DbSet<CETWebProject.Models.AddReadingViewModel> AddReadingViewModel { get; set; }
     }
 }
