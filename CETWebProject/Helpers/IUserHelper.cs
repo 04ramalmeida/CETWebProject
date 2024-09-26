@@ -1,6 +1,8 @@
 ﻿using CETWebProject.Data.Entities;
 using CETWebProject.Models;
 using Microsoft.AspNetCore.Identity;
+using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace CETWebProject.Helpers
@@ -20,5 +22,7 @@ namespace CETWebProject.Helpers
         Task<SignInResult> LoginAsync(LoginViewModel model);
 
         Task LogoutAsync();
+
+        ICollection<UserViewModel> GetAllUsers();
     }
 }

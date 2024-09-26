@@ -1,6 +1,10 @@
-﻿using CETWebProject.Helpers;
+﻿using CETWebProject.Data.Entities;
+using CETWebProject.Helpers;
 using CETWebProject.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -49,6 +53,13 @@ namespace CETWebProject.Controllers
         {
             await _userHelper.LogoutAsync();
             return RedirectToAction("Index", "Home");
+        }
+
+        [Authorize(Roles = "Admin")]
+        public IActionResult UserManagerIndex()
+        {
+            var model = _userHelper.GetAllUsers();
+            return View(model);
         }
     }
 }

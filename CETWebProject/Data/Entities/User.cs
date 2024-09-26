@@ -14,5 +14,7 @@ namespace CETWebProject.Data.Entities
 
         public DateTime SignUpDateTime { get; set; }
 
+        public string FullName => $"{FirstName} {LastName}";
+
     }
 }

@@ -2,6 +2,8 @@
 using CETWebProject.Data.Entities;
 using CETWebProject.Models;
 using Microsoft.AspNetCore.Identity;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CETWebProject.Helpers
@@ -45,6 +47,20 @@ namespace CETWebProject.Helpers
                     Name = roleName
                 });
             }
+        }
+
+        public ICollection<UserViewModel> GetAllUsers()
+        {
+            var userList = _context.Users.ToList();
+            ICollection<UserViewModel> users = userList.Cast<User>().Select(item => new UserViewModel
+            {
+                Id = item.Id,
+                Name = item.FullName,
+                Email = item.Email,
+                Role = _userManager.GetRolesAsync(item).Result.FirstOrDefault(),
+                SignUpDateTime = item.SignUpDateTime,
+            }).ToList();
+            return users;
         }
 
         public async Task<User> GetUserByEmailAsync(string userName)
