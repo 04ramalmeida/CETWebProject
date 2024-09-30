@@ -3,6 +3,7 @@
     ViewData["Title"] = "UserManager";
 }
 
+<a asp-action="UserManagerAddUser">Add a new user</a>
 
 <table class="table">
     <thead>
@@ -38,8 +39,16 @@
                     @Html.DisplayFor(modelItem => item.SignUpDateTime)
                 </td>
                 <td>
-                    <a asp-action="EditReading" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="DeleteReading" asp-route-id="@item.Id">Delete</a>
+                    @if (this.User.Identity.Name == item.Email)
+                    {
+                        <p>Current User</p>
+                    }
+                    else
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> 
+                        <a asp-action="UserManagerDelete" asp-route-id="@item.Id">Delete</a>
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                    }
                 </td>
             </tr>
         }

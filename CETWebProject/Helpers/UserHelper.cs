@@ -2,6 +2,7 @@
 using CETWebProject.Data.Entities;
 using CETWebProject.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -31,8 +32,18 @@ namespace CETWebProject.Helpers
             return await _userManager.CreateAsync(user, password);
         }
 
-        public async Task AddUserToRoleAsync(User user, string roleName)
+        public async Task<IdentityResult> ChangePasswordAsync(User user, string oldPassword, string newPassword)
         {
+            return await _userManager.ChangePasswordAsync(user, oldPassword, newPassword);
+        }
+
+        public async Task ChangeUserRolesAsync(User user, string roleName)
+        {
+            var userRoles = await _userManager.GetRolesAsync(user);
+            if (userRoles != null)
+            {
+                await _userManager.RemoveFromRolesAsync(user, userRoles);
+            }
             await _userManager.AddToRoleAsync(user, roleName);
         }
 
@@ -47,6 +58,12 @@ namespace CETWebProject.Helpers
                     Name = roleName
                 });
             }
+        }
+
+        public SelectList GetAllRoles()
+        {
+            var roles = _roleManager.Roles.ToList();
+            return new SelectList(roles);
         }
 
         public ICollection<UserViewModel> GetAllUsers()
@@ -68,6 +85,16 @@ namespace CETWebProject.Helpers
             return await _userManager.FindByEmailAsync(userName);
         }
 
+        public async Task<User> GetUserById(string id)
+        {
+            return await _userManager.FindByIdAsync(id);
+        }
+
+        public string GetUserRole(User user)
+        {
+            return _userManager.GetRolesAsync(user).Result.FirstOrDefault();
+        }
+
         public async Task<bool> IsUserInRoleAsync(User user, string roleName)
         {
             return await _userManager.IsInRoleAsync(user, roleName);
@@ -85,6 +112,11 @@ namespace CETWebProject.Helpers
         public async Task LogoutAsync()
         {
             await _signInManager.SignOutAsync();
+        }
+
+        public async Task<IdentityResult> UpdateUserAsync(User user)
+        {
+            return await _userManager.UpdateAsync(user);
         }
     }
 }

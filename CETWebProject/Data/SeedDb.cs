@@ -58,7 +58,7 @@ namespace CETWebProject.Data
 
             if (!isInRole)
             {
-                await _userHelper.AddUserToRoleAsync(user, "Admin");
+                await _userHelper.ChangeUserRolesAsync(user, "Admin");
             }
 
 

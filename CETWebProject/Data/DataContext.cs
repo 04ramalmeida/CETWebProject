@@ -20,5 +20,7 @@ namespace CETWebProject.Data
         public DbSet<Invoice> invoices { get; set; }
 
         public DbSet<CETWebProject.Models.AddReadingViewModel> AddReadingViewModel { get; set; }
+
+        public DbSet<CETWebProject.Models.UserViewModel> UserViewModel { get; set; }
     }
 }
