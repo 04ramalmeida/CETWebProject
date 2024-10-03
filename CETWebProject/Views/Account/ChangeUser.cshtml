@@ -1,11 +1,10 @@
-﻿@model CETWebProject.Models.EditUserViewModel
+﻿@model CETWebProject.Models.ChangeUserViewModel
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "ChangeUser";
 }
 
-<h2>Admin Center</h2>
-<h3>User Management</h3>
+<h4>Change your information</h4>
 <hr />
 <div class="text-success">
     <p>
@@ -14,10 +13,9 @@
 </div>
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
-
+        <form asp-action="ChangeUser">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Username" />
+            <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="FirstName" class="control-label"></label>
                 <input asp-for="FirstName" class="form-control" />
@@ -39,18 +37,13 @@
                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Role" class="control-label"></label>
-                <select asp-for="Role" asp-items="Model.Roles" class="form-control"></select>
-                <span asp-validation-for="Role" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Edit" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="UserManagerIndex">Back to List</a>
+    <a asp-controller="Home" asp-action="Index">Back to Home</a>
 </div>
 

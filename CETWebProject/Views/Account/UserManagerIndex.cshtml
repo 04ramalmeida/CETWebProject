@@ -3,6 +3,8 @@
     ViewData["Title"] = "UserManager";
 }
 
+<h2>Admin Center</h2>
+<h3>User Management</h3>
 <a asp-action="UserManagerAddUser">Add a new user</a>
 
 <table class="table">
@@ -46,7 +48,6 @@
                     else
                     {
                         <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> 
-                        <a asp-action="UserManagerDelete" asp-route-id="@item.Id">Delete</a>
                         <a asp-action="Details" asp-route-id="@item.Id">Details</a>
                     }
                 </td>

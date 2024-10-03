@@ -1,7 +1,6 @@
 ﻿using CETWebProject.Data.Entities;
 using CETWebProject.Helpers;
 using CETWebProject.Models;
-using CETWebProject.Views.Account;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -155,9 +154,10 @@ namespace CETWebProject.Controllers
 
                 var response = await _userHelper.UpdateUserAsync(user);
 
+
                 if (response.Succeeded)
                 {
-                    ViewBag.UserMessage = "User Updated!";
+                    ViewBag.Message = "User Updated!";
                 }
                 else
                 {
@@ -167,5 +167,44 @@ namespace CETWebProject.Controllers
             return View(model);
         }
 
+       public async Task<IActionResult> ChangeUser()
+       {
+            var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+            var model = new ChangeUserViewModel();
+            if (user != null)
+            {
+                model.FirstName = user.FirstName;
+                model.LastName = user.LastName;
+                model.Address = user.Address;
+                model.PhoneNumber = user.PhoneNumber;
+            }
+
+            return View(model);
+       }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangeUser(ChangeUserViewModel model)
+        {
+            var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+            if (user != null)
+            {
+                user.FirstName = model.FirstName;
+                user.LastName = model.LastName;
+                user.Address = model.Address;
+                user.PhoneNumber = model.PhoneNumber;
+
+                var response = await _userHelper.UpdateUserAsync(user);
+                if (response.Succeeded)
+                {
+                    ViewBag.Message = "Info updated.";
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, response.Errors.FirstOrDefault().Description);
+                }
+                
+            }
+            return View(model);
+        }
     }
 }
