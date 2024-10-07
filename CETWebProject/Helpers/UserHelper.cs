@@ -27,9 +27,14 @@ namespace CETWebProject.Helpers
             _signInManager = signInManager;
         }
 
-        public async Task<IdentityResult> AddUserAsync(User user, string password)
+        public async Task<IdentityResult> AddPasswordAsync(User user, string password)
         {
-            return await _userManager.CreateAsync(user, password);
+            return await _userManager.AddPasswordAsync(user, password);
+        }
+
+        public async Task<IdentityResult> AddUserAsync(User user)
+        {
+            return await _userManager.CreateAsync(user);
         }
 
         public async Task<IdentityResult> ChangePasswordAsync(User user, string oldPassword, string newPassword)
@@ -58,6 +63,21 @@ namespace CETWebProject.Helpers
                     Name = roleName
                 });
             }
+        }
+
+        public async Task<IdentityResult> ConfirmEmailAsync(User user, string token)
+        {
+            return await _userManager.ConfirmEmailAsync(user, token);
+        }
+
+        public async Task<string> GenerateEmailConfirmationTokenAsync(User user)
+        {
+            return await _userManager.GenerateEmailConfirmationTokenAsync(user);
+        }
+
+        public async Task<string> GeneratePasswordResetTokenAsync(User user)
+        {
+            return await _userManager.GeneratePasswordResetTokenAsync(user);
         }
 
         public SelectList GetAllRoles()
@@ -90,6 +110,7 @@ namespace CETWebProject.Helpers
             return await _userManager.FindByIdAsync(id);
         }
 
+
         public string GetUserRole(User user)
         {
             return _userManager.GetRolesAsync(user).Result.FirstOrDefault();
@@ -114,9 +135,19 @@ namespace CETWebProject.Helpers
             await _signInManager.SignOutAsync();
         }
 
+        public async Task<IdentityResult> ResetPasswordAsync(User user, string token, string password)
+        {
+            return await _userManager.ResetPasswordAsync(user, token, password);
+        }
+
         public async Task<IdentityResult> UpdateUserAsync(User user)
         {
             return await _userManager.UpdateAsync(user);
+        }
+
+        public async Task<SignInResult> ValidatePasswordAsync(User user, string password)
+        {
+            return await _signInManager.CheckPasswordSignInAsync(user, password, false);
         }
     }
 }

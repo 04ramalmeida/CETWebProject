@@ -28,14 +28,6 @@ namespace CETWebProject.Models
         [MaxLength(9, ErrorMessage = "The phone number has to contain at least 9 characters")]
         public string PhoneNumber { get; set; }
 
-        [Required]
-        [MinLength(6)]
-        public string Password { get; set; }
-
-        [Required]
-        [Compare("Password")]
-        public string Confirm { get; set; }
-
         
         public IEnumerable<SelectListItem> Roles { get; set; }
 

@@ -12,9 +12,9 @@ namespace CETWebProject.Helpers
     {
         Task<User> GetUserByEmailAsync(string email);
 
-        Task<User> GetUserById(string id);
+        Task<User> GetUserById(string id); // TODO: change to GetUserByIdAsync
 
-        Task<IdentityResult> AddUserAsync(User user, string password);
+        Task<IdentityResult> AddUserAsync(User user);
 
         Task CheckRoleAsync(string roleName);
 
@@ -35,5 +35,17 @@ namespace CETWebProject.Helpers
         Task<IdentityResult> UpdateUserAsync(User user);
 
         Task<IdentityResult> ChangePasswordAsync(User user, string oldPassword, string newPassword);
+
+        Task<SignInResult> ValidatePasswordAsync(User user, string password);
+
+        Task<string> GenerateEmailConfirmationTokenAsync(User user);
+
+        Task<IdentityResult> ConfirmEmailAsync(User user, string token);
+
+        Task<IdentityResult> ResetPasswordAsync(User user, string token, string password);
+
+        Task<string> GeneratePasswordResetTokenAsync(User user);
+
+        Task<IdentityResult> AddPasswordAsync (User user,  string password);
     }
 }

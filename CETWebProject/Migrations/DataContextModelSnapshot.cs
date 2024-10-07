@@ -82,26 +82,7 @@ namespace CETWebProject.Migrations
                     b.ToTable("waterMeters");
                 });
 
-            modelBuilder.Entity("CETWebProject.Models.AddReadingViewModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("ReadingTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<float>("UsageAmount")
-                        .HasColumnType("real");
-
-                    b.Property<int>("WaterMeterId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AddReadingViewModel");
-                });
+           
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {

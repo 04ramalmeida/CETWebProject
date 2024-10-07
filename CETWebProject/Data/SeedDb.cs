@@ -46,7 +46,8 @@ namespace CETWebProject.Data
                     Address = "Morada 1234-123",
                     SignUpDateTime = DateTime.Now,
                 };
-                var result = await _userHelper.AddUserAsync(user, "123456");
+                var result = await _userHelper.AddUserAsync(user);
+                await _userHelper.AddPasswordAsync(user, "123456");
 
                 if (result != IdentityResult.Success)
                 {
@@ -59,8 +60,11 @@ namespace CETWebProject.Data
             if (!isInRole)
             {
                 await _userHelper.ChangeUserRolesAsync(user, "Admin");
-            }
+                
 
+            }
+            var token = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
+            await _userHelper.ConfirmEmailAsync(user, token);
 
             if (!_context.waterMeters.Any())
             {
