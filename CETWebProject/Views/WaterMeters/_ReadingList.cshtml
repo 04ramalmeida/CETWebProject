@@ -22,8 +22,11 @@
                 @Html.DisplayFor(modelItem => item.ReadingTime)
             </td>
             <td>
-                <a asp-action="EditReading" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="DeleteReading" asp-route-id="@item.Id">Delete</a>
+                    @if (this.User.IsInRole("Employee"))
+                    {
+                        <a asp-action="EditReading" asp-route-id="@item.Id">Edit</a>
+                        <a asp-action = "DeleteReading" asp -route-id = "@item.Id"> Delete </a>
+                    }
             </td>
         </tr>
 }

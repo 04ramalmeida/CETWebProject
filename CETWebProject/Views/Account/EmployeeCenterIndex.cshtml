@@ -1,0 +1,58 @@
+﻿@model IEnumerable<CETWebProject.Models.UserViewModel>
+@{
+    ViewData["Title"] = "UserManager";
+}
+
+<h2>Employee Center</h2>
+<h3>User Management</h3>
+<a asp-action="UserManagerAddUser">Add a new user</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Role)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SignUpDateTime)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Role)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SignUpDateTime)
+                </td>
+                <td>
+                    @if (this.User.Identity.Name == item.Email)
+                    {
+                        <p>Current User</p>
+                    }
+                    else
+                    {
+                        <a asp-controller="WaterMeters" asp-action="Index" asp-route-id="@item.Id">Water meters</a> 
+                        <a asp-controller="Invoice" asp-action="EmployeeIndex" asp-route-userId="@item.Id">Details</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

@@ -57,6 +57,8 @@ namespace CETWebProject.Data
 
             var isInRole = await _userHelper.IsUserInRoleAsync(user, "Admin");
 
+            var customer = await _userHelper.GetUserByEmailAsync("jalmshopuser1@yopmail.com");
+
             if (!isInRole)
             {
                 await _userHelper.ChangeUserRolesAsync(user, "Admin");
@@ -66,19 +68,24 @@ namespace CETWebProject.Data
             var token = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
             await _userHelper.ConfirmEmailAsync(user, token);
 
-            if (!_context.waterMeters.Any())
+            if (!_context.waterMeters
+                .Where(m => m.User == customer).Any())
             {
-                AddMeter(user);
+                await AddMeter();
                 await _context.SaveChangesAsync();
             }
             
         }
 
-        private void AddMeter(User user) 
+       
+
+        private async Task AddMeter() 
         {
+            var customer = await _userHelper.GetUserByEmailAsync("jalmshopuser1@yopmail.com");
+
             _context.waterMeters.Add(new WaterMeter
             {
-                User = user,
+                User = customer,
                 Readings = new List<Reading>
                 {
                     new Reading

@@ -22,8 +22,8 @@ namespace CETWebProject.Controllers
         }
 
 
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> EmployeeIndex(string userId)
+        [Authorize]
+        public async Task<IActionResult> InvoiceIndex(string userId)
         {
             var model = await _invoiceRepository.GetInvoicesByUserAsync(userId);
             var user = await _userHelper.GetUserById(userId);
@@ -31,7 +31,7 @@ namespace CETWebProject.Controllers
             return View(model);
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Employee")]
         public async Task<IActionResult> EmployeeAddInvoice(string userId) 
         {
             var model = new AddInvoiceViewModel

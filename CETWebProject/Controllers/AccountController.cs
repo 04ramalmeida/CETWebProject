@@ -399,5 +399,12 @@ namespace CETWebProject.Controllers
             ViewBag.Message = "User not found.";
             return View(model);
         }
+
+        [Authorize(Roles = "Employee")]
+        public IActionResult EmployeeCenterIndex()
+        {
+            var model = _userHelper.GetAllCustomers();
+            return View(model);
+        }
     }
 }

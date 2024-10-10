@@ -25,5 +25,7 @@ namespace CETWebProject.Data
         int GetMeterIdByReading (Reading reading);
         
         Task DeleteReadingAsync (Reading reading);
+
+        Task RequestMeter (RequestMeterViewModel model);
     }
 }

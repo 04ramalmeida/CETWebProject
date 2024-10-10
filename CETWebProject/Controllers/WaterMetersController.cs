@@ -1,6 +1,8 @@
+using System;
 using System.Threading.Tasks;
 using CETWebProject.Data;
 using CETWebProject.Data.Entities;
+using CETWebProject.Helpers;
 using CETWebProject.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -10,15 +12,25 @@ namespace CETWebProject.Controllers
     public class WaterMetersController : Controller
     {
         private readonly IWaterMeterRepository _waterMeterRepository;
+        private readonly IUserHelper _userHelper;
         
-        public WaterMetersController(IWaterMeterRepository waterMeterRepository)
+        public WaterMetersController(IWaterMeterRepository waterMeterRepository,
+            IUserHelper userHelper)
         {
             _waterMeterRepository = waterMeterRepository;
+            _userHelper = userHelper;
         }
         // GET
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string id)
         {
-            var model = await _waterMeterRepository.GetWaterMetersByUserAsync("email@email.com");
+            var user = await _userHelper.GetUserById(id);
+            var model = await _waterMeterRepository.GetWaterMetersByUserAsync(user.Email);
+            return View(model);
+        }
+
+        public async Task<IActionResult> UserIndex()
+        {
+            var model = await _waterMeterRepository.GetWaterMetersByUserAsync(this.User.Identity.Name);
             return View(model);
         }
 
@@ -44,7 +56,7 @@ namespace CETWebProject.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Readings(int? id)
         {
             if (id == null)
             {
@@ -107,7 +119,7 @@ namespace CETWebProject.Controllers
                 await _waterMeterRepository.UpdateReading(reading);
                 if (meter != 0)
                 {
-                    return RedirectToAction($"Details", new { id = meter });
+                    return RedirectToAction($"Readings", new { id = meter });
                 }
             }
 
@@ -131,6 +143,21 @@ namespace CETWebProject.Controllers
             }
             await _waterMeterRepository.DeleteReadingAsync(reading);
             return RedirectToAction($"Details", new { id = meterId});
+        }
+
+        public async Task<IActionResult> RequestMeterByUser()
+        {
+            var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+            if (user != null)
+            {
+                await _waterMeterRepository.RequestMeter(new RequestMeterViewModel
+                {
+                    User = user,
+                    Date = DateTime.Now,
+                });
+            }
+            //TODO make this work somehow ViewBag.Message("Your request has been sent.");
+            return RedirectToAction($"UserIndex");
         }
     }
 }

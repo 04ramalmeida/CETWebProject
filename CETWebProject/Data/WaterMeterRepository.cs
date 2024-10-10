@@ -109,5 +109,16 @@ namespace CETWebProject.Data
             _context.Set<Reading>().Remove(reading);
             await SaveAllAsync();
         }
+
+        public async Task RequestMeter(RequestMeterViewModel model)
+        {
+            
+            _context.metersTemp.Add(new MeterTemp
+            {
+                User = model.User,
+                Date = model.Date,
+            });
+            await SaveAllAsync();
+        }
     }
 }

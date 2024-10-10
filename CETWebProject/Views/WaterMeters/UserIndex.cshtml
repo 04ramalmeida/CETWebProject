@@ -1,0 +1,37 @@
+﻿@model IEnumerable<CETWebProject.Data.Entities.WaterMeter>
+
+@{
+    ViewData["Title"] = "UserIndex";
+}
+
+<h1>UserIndex</h1>
+
+<p>
+    <a asp-action="RequestMeterByUser">Request a watermeter</a>
+</p>
+@if (Model.Count() > 0) {
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Water Meter Identification #</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <p>@item.Id</p>
+                    </td>
+                    <td>
+                        <a asp-action="Readings" asp-route-id="@item.Id">Check readings</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+} else
+{
+    <p>You possess no water meters.</p>
+}

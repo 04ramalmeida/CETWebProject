@@ -80,6 +80,22 @@ namespace CETWebProject.Helpers
             return await _userManager.GeneratePasswordResetTokenAsync(user);
         }
 
+        public ICollection<UserViewModel> GetAllCustomers()
+        {
+            var userList = _context.Users.ToList();
+            ICollection<UserViewModel> users = userList.Cast<User>()
+                .Where(u => _userManager.IsInRoleAsync(u, "Customer").Result)
+                .Select(item => new UserViewModel
+            {
+                Id = item.Id,
+                Name = item.FullName,
+                Email = item.Email,
+                Role = _userManager.GetRolesAsync(item).Result.FirstOrDefault(),
+                SignUpDateTime = item.SignUpDateTime,
+            }).ToList();
+            return users;
+        }
+
         public SelectList GetAllRoles()
         {
             var roles = _roleManager.Roles.ToList();

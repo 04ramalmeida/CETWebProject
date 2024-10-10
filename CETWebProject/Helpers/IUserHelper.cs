@@ -28,7 +28,10 @@ namespace CETWebProject.Helpers
 
         ICollection<UserViewModel> GetAllUsers();
 
+        ICollection<UserViewModel> GetAllCustomers();
+
         SelectList GetAllRoles();
+
 
         string GetUserRole(User user);
 
