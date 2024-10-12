@@ -9,6 +9,6 @@ namespace CETWebProject.Data.Entities
 
         public ICollection<Reading> Readings { get; set; } = new List<Reading>();
 
-        public User User { get; set; }
+        public string Username { get; set; }
     }
 }

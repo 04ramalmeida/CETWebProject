@@ -73,15 +73,16 @@ namespace CETWebProject.Controllers
         public async Task<IActionResult> EmployeeIssueInvoice (int id)
         {
             var reading = await _waterMeterRepository.GetReadingByIdAsync(id);
-            await _invoiceRepository.AddInvoiceAsync(reading.WaterMeter.User.Id, reading.UsageAmount);
+            var user = await _userHelper.GetUserByEmailAsync(reading.WaterMeter.Username);
+            await _invoiceRepository.AddInvoiceAsync(user.Id, reading.UsageAmount);
             string tokenLink = Url.Action("InvoiceIndex", "Invoice","", protocol: HttpContext.Request.Scheme);
 
-            Response response = _mailHelper.SendEmail(reading.WaterMeter.User.Email,
+            Response response = _mailHelper.SendEmail(reading.WaterMeter.Username,
                 "New Invoice",
                 "A new invoice has been issued. To see the details, please click on the link below." +
                 "</br>" +
                 $"<a href=\"{tokenLink}\">Check my invoices</a>");
-            return RedirectToAction("EmployeeInvoiceIndex", new { userId = reading.WaterMeter.User.Id });
+            return RedirectToAction("EmployeeInvoiceIndex", new { userId = user.Id });
         }
 
         public async Task<IActionResult> Delete (int id)

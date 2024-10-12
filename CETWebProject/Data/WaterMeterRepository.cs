@@ -43,7 +43,7 @@ namespace CETWebProject.Data
             var user = await _userHelper.GetUserByEmailAsync(userName);
             var newMeter = new WaterMeter
             {
-                User = user
+                Username = userName,
             };
             _context.Add(newMeter);
             await _context.SaveChangesAsync();
@@ -67,7 +67,7 @@ namespace CETWebProject.Data
         public async Task<ICollection<WaterMeter>> GetWaterMetersByUserAsync(string userName)
         {
             var user = await _userHelper.GetUserByEmailAsync(userName);
-            return _context.waterMeters.Where(m => m.User == user)
+            return _context.waterMeters.Where(m => m.Username == user.UserName)
                 .OrderBy(m => m.Id).ToList();
         }
 
@@ -81,7 +81,7 @@ namespace CETWebProject.Data
         public async Task<WaterMeter> GetWaterMeterWithUser(int id)
         {
             return await _context.waterMeters.Where(m => m.Id == id)
-                .Include(m => m.User)
+                .Include(m => m.Username)
                 .FirstOrDefaultAsync();
         }
 
@@ -89,7 +89,7 @@ namespace CETWebProject.Data
         {
             return await _context.monthlyReadings.Where(m => m.Id == id)
                 .Include(m => m.WaterMeter)
-                .Include(m => m.WaterMeter.User)
+                .Include(m => m.WaterMeter.Username)
                 .FirstOrDefaultAsync();
         }
 

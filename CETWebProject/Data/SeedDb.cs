@@ -80,7 +80,7 @@ namespace CETWebProject.Data
 
             _context.waterMeters.Add(new WaterMeter
             {
-                User = customer,
+                Username = customer.UserName,
                 Readings = new List<Reading>
                 {
                     new Reading

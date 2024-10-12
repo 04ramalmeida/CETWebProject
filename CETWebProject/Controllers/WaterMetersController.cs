@@ -49,17 +49,19 @@ namespace CETWebProject.Controllers
         public async Task<IActionResult> Delete(int? id)
         {
             
+
             if (id == null) 
             {
                return NotFound();
             }
             var meter = await _waterMeterRepository.GetWaterMeterWithUser((int)id);
+            var user = await _userHelper.GetUserByEmailAsync(meter.Username);
             if (meter == null)
             {
                 return NotFound();
             }
             await _waterMeterRepository.DeleteWaterMeterAsync(id.Value);
-            return RedirectToAction("Index", new {id = meter.User.Id});
+            return RedirectToAction("Index", new {id = user.Id});
         }
 
         public async Task<IActionResult> Readings(int? id)
