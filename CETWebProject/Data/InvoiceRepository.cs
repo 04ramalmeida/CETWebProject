@@ -1,5 +1,6 @@
 ﻿using CETWebProject.Data.Entities;
 using CETWebProject.Helpers;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -89,6 +90,12 @@ namespace CETWebProject.Data
                 .OrderBy(i => i.Id).ToList();
         }
 
-
+        public Invoice GetInvoiceWithUser(int id)
+        {
+            return _context.invoices
+                .Where(i => i.Id == id)
+                .Include(i => i.User)
+                .FirstOrDefault();
+        }
     }
 }

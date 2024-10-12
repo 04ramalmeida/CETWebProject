@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace CETWebProject.Data
+namespace CETWebProject.Data.Entities
 {
     public class UserTemp : IEntity
     {

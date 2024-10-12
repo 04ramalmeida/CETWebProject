@@ -57,7 +57,7 @@ namespace CETWebProject.Data
 
             var isInRole = await _userHelper.IsUserInRoleAsync(user, "Admin");
 
-            var customer = await _userHelper.GetUserByEmailAsync("jalmshopuser1@yopmail.com");
+            
 
             if (!isInRole)
             {
@@ -68,12 +68,7 @@ namespace CETWebProject.Data
             var token = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
             await _userHelper.ConfirmEmailAsync(user, token);
 
-            if (!_context.waterMeters
-                .Where(m => m.User == customer).Any())
-            {
-                await AddMeter();
-                await _context.SaveChangesAsync();
-            }
+            
             
         }
 

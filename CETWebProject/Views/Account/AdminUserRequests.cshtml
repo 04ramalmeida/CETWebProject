@@ -1,0 +1,41 @@
+﻿@model ICollection<CETWebProject.Data.Entities.UserTemp>
+@{
+    ViewData["Title"] = "UserManager";
+}
+
+<h2>Admin Center</h2>
+<h3>User Requests</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Request #
+            </th>
+            <th>
+                Email
+            </th>
+            <th>
+                Actions
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Username)
+                </td>
+                <td>
+                        <a asp-controller="Account" asp-action="AcceptUserRequest" asp-route-id="@item.Id">Accept User Request</a>
+                        <a asp-controller="Account" asp-action="DenyUserRequest" asp-route-id="@item.Id">Deny User Requests</a>
+                        <a asp-controller="Account" asp-action="UserRequestDetails" asp-route-id="@item.Id">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

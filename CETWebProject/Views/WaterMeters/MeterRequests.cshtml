@@ -1,0 +1,32 @@
+﻿@model IEnumerable<CETWebProject.Data.Entities.MeterTemp>
+
+@{
+    ViewData["Title"] = "MeterRequests";
+}
+
+<h1>MeterRequests</h1>
+
+<p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Request #
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                <a asp-action="Deliver" asp-route-id="@item.Id">Deliver Meter</a> 
+                <a asp-action="Deny" asp-route-id="@item.Id">Deny Request</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

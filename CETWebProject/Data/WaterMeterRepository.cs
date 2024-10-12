@@ -3,6 +3,7 @@ using CETWebProject.Helpers;
 using CETWebProject.Models;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
+using Org.BouncyCastle.Asn1.Ocsp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -77,9 +78,18 @@ namespace CETWebProject.Data
                 .FirstOrDefaultAsync();
         }
 
+        public async Task<WaterMeter> GetWaterMeterWithUser(int id)
+        {
+            return await _context.waterMeters.Where(m => m.Id == id)
+                .Include(m => m.User)
+                .FirstOrDefaultAsync();
+        }
+
         public async Task<Reading> GetReadingByIdAsync(int id)
         {
             return await _context.monthlyReadings.Where(m => m.Id == id)
+                .Include(m => m.WaterMeter)
+                .Include(m => m.WaterMeter.User)
                 .FirstOrDefaultAsync();
         }
 
@@ -119,6 +129,27 @@ namespace CETWebProject.Data
                 Date = model.Date,
             });
             await SaveAllAsync();
+        }
+
+        public async Task<ICollection<MeterTemp>> GetRequestsByUser(string id)
+        {
+            return await _context.metersTemp
+                .Where(m => m.User.Id == id)
+                .ToListAsync();
+        }
+
+        public Task<MeterTemp> GetRequestById(int id)
+        {
+            return _context.metersTemp
+                .Where(m => m.Id == id)
+                .Include(m => m.User)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task RemoveRequest(MeterTemp request)
+        {
+            _context.Remove(request);
+            await _context.SaveChangesAsync();
         }
     }
 }

@@ -6,7 +6,7 @@
 <h2>Admin Center</h2>
 <h3>User Management</h3>
 <a asp-action="UserManagerAddUser">Add a new user</a>
-
+<a asp-action="AdminUserRequests">Check User Requests</a>
 <table class="table">
     <thead>
         <tr>
@@ -49,7 +49,6 @@
                     {
                         <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> 
                         <a asp-action="Details" asp-route-id="@item.Id">Details</a>
-                        <a asp-controller="Invoice" asp-action="EmployeeIndex" asp-route-userId="@item.Id">Details</a>
                     }
                 </td>
             </tr>

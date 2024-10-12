@@ -25,7 +25,8 @@
                     @if (this.User.IsInRole("Employee"))
                     {
                         <a asp-action="EditReading" asp-route-id="@item.Id">Edit</a>
-                        <a asp-action = "DeleteReading" asp -route-id = "@item.Id"> Delete </a>
+                        <a asp-action = "DeleteReading" asp-route-id = "@item.Id"> Delete </a>
+                        <a asp-controller="Invoice" asp-action="IssueInvoice" asp-route-id="@item.Id"> Issue an invoice </a>
                     }
             </td>
         </tr>

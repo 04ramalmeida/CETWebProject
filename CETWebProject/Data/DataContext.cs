@@ -20,5 +20,7 @@ namespace CETWebProject.Data
         public DbSet<Invoice> invoices { get; set; }
 
         public DbSet<MeterTemp> metersTemp { get; set; }
+
+        public DbSet<UserTemp> usersTemp { get; set; }
     }
 }

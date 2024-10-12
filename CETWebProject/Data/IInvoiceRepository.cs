@@ -10,5 +10,7 @@ namespace CETWebProject.Data
         Task<ICollection<Invoice>> GetInvoicesByUserAsync(string userId);
 
         Task AddInvoiceAsync(string userId, double usageAmount);
+
+        Invoice GetInvoiceWithUser(int id);
     }
 }

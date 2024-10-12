@@ -27,16 +27,19 @@ namespace CETWebProject.Controllers
         private readonly IMailHelper _mailHelper;
         private readonly IConfiguration _configuration;
         private readonly IUserTempRepository _userTempRepository;
+        private readonly IWaterMeterRepository _waterMeterRepository;
 
         public AccountController(IUserHelper userHelper,
             IMailHelper mailHelper,
             IConfiguration configuration,
-            IUserTempRepository userTempRepository)
+            IUserTempRepository userTempRepository,
+            IWaterMeterRepository waterMeterRepository)
         {
             _userHelper = userHelper;
             _mailHelper = mailHelper;
             _configuration = configuration;
             _userTempRepository = userTempRepository;
+            _waterMeterRepository = waterMeterRepository;
         }
 
         public IActionResult Login()
@@ -405,6 +408,122 @@ namespace CETWebProject.Controllers
         {
             var model = _userHelper.GetAllCustomers();
             return View(model);
+        }
+
+        public IActionResult RequestAccount()
+        {
+            var model = new AddNewUserViewModel
+            {
+                Role = "Customer"
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RequestAccount(AddNewUserViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                await _userTempRepository.CreateAsync(new UserTemp
+                {
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    Username = model.Username,
+                    Address = model.Address,
+                    PhoneNumber = model.PhoneNumber,
+                    Role = model.Role
+                });
+                ViewBag.Message = "Please await for your request to be accepted.";
+            }
+            return View();
+        }
+
+        [Authorize(Roles =  "Admin")]
+        public async Task<IActionResult> AdminUserRequestsAsync()
+        {
+            var model = await _userTempRepository.GetAllRequestsAsync();
+            return View(model);
+        }
+
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> AcceptUserRequest(int id)
+        {
+            var request = await _userTempRepository.GetByIdAsync(id);
+            var user = await _userHelper.GetUserByEmailAsync(request.Username);
+            if (user == null)
+            {
+                user = new User
+                {
+                    FirstName = request.FirstName,
+                    LastName = request.LastName,
+                    UserName = request.Username,
+                    Email = request.Username,
+                    Address = request.Address,
+                    PhoneNumber = request.PhoneNumber,
+                    SignUpDateTime = DateTime.Now
+                };
+            }
+            var result = await _userHelper.AddUserAsync(user);
+
+            
+
+            if (result != IdentityResult.Success)
+            {
+                ModelState.AddModelError(string.Empty, "The user could not be created");
+                return View(request);
+            }
+
+            await _waterMeterRepository.AddWaterMeterAsync(request.Username);
+
+            string myToken = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
+            string tokenLink = Url.Action("ConfirmEmail", "Account", new
+            {
+                userid = user.Id,
+                token = myToken
+            }, protocol: HttpContext.Request.Scheme);
+
+            Response response = _mailHelper.SendEmail(request.Username,
+                "Email confirmation",
+                "To finish your registration, please click on the following link." +
+                "</br>" +
+                $"<a href=\"{tokenLink}\">Confirm Email</a>");
+
+
+            await _userHelper.ChangeUserRolesAsync(user, request.Role);
+
+            if (response.IsSuccess)
+            {
+                ViewBag.Message = "The instructions have been sent to the users.";
+                await _userTempRepository.DeleteAsync(request);
+                return View(request);
+            }
+
+            ModelState.AddModelError(string.Empty, "The user couldn't be registered.");
+
+            return View(request);
+        }
+
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> UserRequestDetailsAsync(int id)
+        {
+            var request = await _userTempRepository.GetByIdAsync(id);
+            if (request == null)
+            {
+                return NotFound();
+            }
+            return View(request);
+        }
+
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DenyUserRequestAsync(int id) 
+        {
+            var request = await _userTempRepository.GetByIdAsync(id);
+            if (request == null)
+            {
+                return NotFound();
+            }
+            await _userTempRepository.DeleteAsync(request);
+            return RedirectToAction("AdminUserRequests");
         }
     }
 }
