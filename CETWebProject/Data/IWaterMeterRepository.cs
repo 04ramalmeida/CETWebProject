@@ -31,10 +31,12 @@ namespace CETWebProject.Data
 
         Task RequestMeter (RequestMeterViewModel model);
 
-        Task<ICollection<MeterTemp>> GetRequestsByUser(string id);
+        Task<ICollection<MeterTemp>> GetAllMeterTemp();
 
         Task<MeterTemp> GetRequestById(int id);
 
         Task RemoveRequest(MeterTemp request);
+
+        Task ApproveMeterRequest(string userName);
     }
 }

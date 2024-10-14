@@ -434,6 +434,11 @@ namespace CETWebProject.Controllers
                     Role = model.Role
                 });
                 ViewBag.Message = "Please await for your request to be accepted.";
+                await _waterMeterRepository.RequestMeter(new RequestMeterViewModel
+                {
+                    Username = model.Username,
+                    Date = DateTime.Now
+                });
             }
             return View();
         }

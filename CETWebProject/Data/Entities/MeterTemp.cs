@@ -6,7 +6,7 @@ namespace CETWebProject.Data.Entities
     {
         public int Id { get; set; }
 
-        public User User { get; set; }
+        public string Username { get; set; }
 
         public DateTime Date { get; set; }
     }

@@ -1,6 +1,8 @@
 ﻿using CETWebProject.Data.Entities;
+using CETWebProject.Helpers;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CETWebProject.Data
@@ -19,5 +21,7 @@ namespace CETWebProject.Data
             return await _context.usersTemp
                 .ToListAsync();
         }
+
+        
     }
 }

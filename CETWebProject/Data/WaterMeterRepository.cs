@@ -125,24 +125,23 @@ namespace CETWebProject.Data
             
             _context.metersTemp.Add(new MeterTemp
             {
-                User = model.User,
+                Username = model.Username,
                 Date = model.Date,
             });
             await SaveAllAsync();
         }
 
-        public async Task<ICollection<MeterTemp>> GetRequestsByUser(string id)
+        /*public async Task<ICollection<MeterTemp>> GetRequestsByUser(string id)
         {
             return await _context.metersTemp
                 .Where(m => m.User.Id == id)
                 .ToListAsync();
-        }
+        }*/
 
         public Task<MeterTemp> GetRequestById(int id)
         {
             return _context.metersTemp
                 .Where(m => m.Id == id)
-                .Include(m => m.User)
                 .FirstOrDefaultAsync();
         }
 
@@ -150,6 +149,33 @@ namespace CETWebProject.Data
         {
             _context.Remove(request);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<ICollection<MeterTemp>> GetAllMeterTemp()
+        {
+            return await _context.metersTemp.ToListAsync();
+        }
+
+        public async Task ApproveMeterRequest(string userName)
+        {
+            var user = await _userHelper.GetUserByEmailAsync(userName);
+            if (user == null)
+            {
+                var userTemp = await _context.usersTemp
+               .Where(u => u.Username == userName)
+               .FirstOrDefaultAsync();
+
+                if (userTemp != null)
+                {
+                    userTemp.IsMeterApproved = true;
+                    await _context.SaveChangesAsync();
+                } 
+            }
+            else
+            {
+                await AddWaterMeterAsync(userName);
+            }
+           
         }
     }
 }

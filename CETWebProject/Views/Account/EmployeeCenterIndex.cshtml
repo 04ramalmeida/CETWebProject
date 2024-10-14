@@ -5,7 +5,7 @@
 
 <h2>Employee Center</h2>
 <h3>User Management</h3>
-
+<a asp-controller="WaterMeters" asp-action="MeterRequests">Check Meter Requests</a>
 <table class="table">
     <thead>
         <tr>
@@ -47,7 +47,7 @@
                     else
                     {
                         <a asp-controller="WaterMeters" asp-action="Index" asp-route-id="@item.Id">Water meters</a>
-                        <a asp-controller="WaterMeters" asp-action="MeterRequests" asp-route-id="@item.Id">Check Meter Requests</a>
+                        
                         <a asp-controller="Invoice" asp-action="EmployeeInvoiceIndex" asp-route-userId="@item.Id">Invoices</a>
                     }
                 </td>

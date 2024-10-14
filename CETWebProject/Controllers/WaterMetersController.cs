@@ -12,12 +12,15 @@ namespace CETWebProject.Controllers
     public class WaterMetersController : Controller
     {
         private readonly IWaterMeterRepository _waterMeterRepository;
+        private readonly IUserTempRepository _userTempRepository;
         private readonly IUserHelper _userHelper;
         
         public WaterMetersController(IWaterMeterRepository waterMeterRepository,
-            IUserHelper userHelper)
+            IUserHelper userHelper,
+            IUserTempRepository userTempRepository)
         {
             _waterMeterRepository = waterMeterRepository;
+            _userTempRepository = userTempRepository;
             _userHelper = userHelper;
         }
         // GET
@@ -160,7 +163,7 @@ namespace CETWebProject.Controllers
             {
                 await _waterMeterRepository.RequestMeter(new RequestMeterViewModel
                 {
-                    User = user,
+                    Username = user.UserName,
                     Date = DateTime.Now,
                 });
             }
@@ -168,25 +171,31 @@ namespace CETWebProject.Controllers
             return RedirectToAction($"UserIndex");
         }
 
-        public async Task<IActionResult> MeterRequests(string id)
+        public async Task<IActionResult> MeterRequests()
         {
-            var requests = await _waterMeterRepository.GetRequestsByUser(id);
+            var requests = await _waterMeterRepository.GetAllMeterTemp();
             return View(requests);
         }
 
         public async Task<IActionResult> Deliver (int id)
         {
             var request = await _waterMeterRepository.GetRequestById(id);
-            await _waterMeterRepository.AddWaterMeterAsync(request.User.Email);
-            var userId = request.User.Id;
+            //await _waterMeterRepository.AddWaterMeterAsync(request.User.Email);
+            //var userId = request.User.Id;
             await _waterMeterRepository.RemoveRequest(request);
-            return RedirectToAction("Index", new {id = userId});
+            await _waterMeterRepository.ApproveMeterRequest(request.Username);
+            return RedirectToAction("MeterRequests");
         }
 
         public async Task<IActionResult> Deny (int id)
         {
             var request = await _waterMeterRepository.GetRequestById(id);
-            var userId = request.User.Id;
+            var user = await _userHelper.GetUserByEmailAsync(request.Username);
+            if (user.Id == null)
+            {
+                return RedirectToAction("MeterRequests", new { id = user.Id });
+            }
+            var userId = user.Id;
             await _waterMeterRepository.RemoveRequest(request);
             return RedirectToAction("MeterRequests", new {id = userId});
         }

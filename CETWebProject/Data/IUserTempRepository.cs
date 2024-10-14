@@ -7,5 +7,7 @@ namespace CETWebProject.Data
     public interface IUserTempRepository : IGenericRepository<UserTemp>
     {
         Task<ICollection<UserTemp>> GetAllRequestsAsync();
+
+        
     }
 }

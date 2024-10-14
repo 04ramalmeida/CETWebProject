@@ -7,7 +7,7 @@ namespace CETWebProject.Models
     public class RequestMeterViewModel
     {
         [Required]
-        public User User { get; set; }
+        public string Username { get; set; }
 
         [Required]
         public DateTime Date { get; set; }

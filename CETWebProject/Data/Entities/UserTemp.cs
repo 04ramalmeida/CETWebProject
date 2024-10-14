@@ -23,5 +23,7 @@ namespace CETWebProject.Data.Entities
         public string PhoneNumber { get; set; }
 
         public string Role { get; set; }
+
+        public bool IsMeterApproved { get; set; }
     }
 }

@@ -13,6 +13,9 @@
             <th>
                 Request #
             </th>
+            <th>
+                User email
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -21,6 +24,9 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Username)
             </td>
             <td>
                 <a asp-action="Deliver" asp-route-id="@item.Id">Deliver Meter</a> 
