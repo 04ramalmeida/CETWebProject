@@ -23,9 +23,9 @@ namespace CETWebProject.Data.Entities
             {
                 if (string.IsNullOrEmpty(ProfilePicUrl))
                 {
-                    return "https://localhost:44321/img/avatar.jpg";
+                    return "http://aguasjalm.somee.com/img/avatar.jpg";
                 }
-                return $"https://localhost:44321{ProfilePicUrl.Substring(1)}";
+                return $"http://aguasjalm.somee.com{ProfilePicUrl.Substring(1)}";
             }
         }
 
