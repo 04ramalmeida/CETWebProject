@@ -9,6 +9,12 @@
 
 <div>
     <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ProfileFullPath)
+        </dt>
+        <dd class="col-sm-10">
+            <img src="@Url.Content(Model.ProfileFullPath)" alt="Profile Picture" style="width:300px;height:450px;max-width:450px;max-width:100%; height:auto"/>
+        </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Name)
         </dt>

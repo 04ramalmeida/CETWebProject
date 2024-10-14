@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Linq;
@@ -25,18 +26,21 @@ namespace CETWebProject.Controllers
     {
         private readonly IUserHelper _userHelper;
         private readonly IMailHelper _mailHelper;
+        private readonly IImageHelper _imageHelper;
         private readonly IConfiguration _configuration;
         private readonly IUserTempRepository _userTempRepository;
         private readonly IWaterMeterRepository _waterMeterRepository;
 
         public AccountController(IUserHelper userHelper,
             IMailHelper mailHelper,
+            IImageHelper imageHelper,
             IConfiguration configuration,
             IUserTempRepository userTempRepository,
             IWaterMeterRepository waterMeterRepository)
         {
             _userHelper = userHelper;
             _mailHelper = mailHelper;
+            _imageHelper = imageHelper;
             _configuration = configuration;
             _userTempRepository = userTempRepository;
             _waterMeterRepository = waterMeterRepository;
@@ -157,7 +161,8 @@ namespace CETWebProject.Controllers
                 Address = user.Address,
                 PhoneNumber = user.PhoneNumber,
                 Role = _userHelper.GetUserRole(user),
-                SignUpDateTime = user.SignUpDateTime
+                SignUpDateTime = user.SignUpDateTime,
+                ProfileFullPath = user.ProfilePicFullPath,
             };
             return View(model);
         }
@@ -176,6 +181,7 @@ namespace CETWebProject.Controllers
                 model.PhoneNumber = user.PhoneNumber;
                 model.Role = _userHelper.GetUserRole(user);
                 model.Roles = _userHelper.GetAllRoles();
+
             }
             return View(model);
         }
@@ -217,6 +223,7 @@ namespace CETWebProject.Controllers
                 model.LastName = user.LastName;
                 model.Address = user.Address;
                 model.PhoneNumber = user.PhoneNumber;
+                model.ProfilePictureUrl = user.ProfilePicUrl;
             }
 
             return View(model);
@@ -225,25 +232,49 @@ namespace CETWebProject.Controllers
         [HttpPost]
         public async Task<IActionResult> ChangeUser(ChangeUserViewModel model)
         {
-            var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
-            if (user != null)
+            if (ModelState.IsValid)
             {
-                user.FirstName = model.FirstName;
-                user.LastName = model.LastName;
-                user.Address = model.Address;
-                user.PhoneNumber = model.PhoneNumber;
+                try
+                {
+                    var path = model.ProfilePictureUrl;
+                    if (model.ImageFile != null && model.ImageFile.Length > 0)
+                    {
+                        path = await _imageHelper.UploadImageAsync(model.ImageFile, "avatars");
+                    }
+                    var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+                    if (user != null)
+                    {
+                        user.FirstName = model.FirstName;
+                        user.LastName = model.LastName;
+                        user.Address = model.Address;
+                        user.PhoneNumber = model.PhoneNumber;
+                        user.ProfilePicUrl = path;
 
-                var response = await _userHelper.UpdateUserAsync(user);
-                if (response.Succeeded)
-                {
-                    ViewBag.Message = "Info updated.";
+                        var response = await _userHelper.UpdateUserAsync(user);
+                        if (response.Succeeded)
+                        {
+                            ViewBag.Message = "Info updated.";
+                        }
+                        else
+                        {
+                            ModelState.AddModelError(string.Empty, response.Errors.FirstOrDefault().Description);
+                        }
+
+                    }
                 }
-                else
+                catch (DbUpdateConcurrencyException)
                 {
-                    ModelState.AddModelError(string.Empty, response.Errors.FirstOrDefault().Description);
+                    if (await _userHelper.GetUserById(model.Id) == null)
+                    {
+                        return NotFound();
+                    } 
+                    else
+                    {
+                        throw;
+                    }
                 }
-                
             }
+            /**/
             return View(model);
         }
 

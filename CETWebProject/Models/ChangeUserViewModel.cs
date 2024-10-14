@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System;
+using Microsoft.AspNetCore.Http;
 
 namespace CETWebProject.Models
 {
@@ -22,6 +23,11 @@ namespace CETWebProject.Models
         [Display(Name = "Phone number")]
         [MaxLength(9, ErrorMessage = "A phone number can only be 9 characters long.")]
         public string PhoneNumber { get; set; }
+
+
+        [Display(Name = "Profile Picture")]
+        public IFormFile ImageFile { get; set; }
+        public string ProfilePictureUrl { get; set; }
 
     }
 }

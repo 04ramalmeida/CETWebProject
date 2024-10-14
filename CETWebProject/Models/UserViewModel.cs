@@ -20,5 +20,8 @@ namespace CETWebProject.Models
         public string Role { get; set; }
 
         public DateTime SignUpDateTime { get; set; }
+
+        [Display(Name = "Profile Picture")]
+        public string ProfileFullPath { get; set; }
     }
 }
