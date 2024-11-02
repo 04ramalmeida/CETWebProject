@@ -38,6 +38,14 @@ namespace CETWebProject.Controllers
             return View(model);
         }
 
+        [Authorize(Roles ="Customer")]
+        public async Task<IActionResult> Pay(int id)
+        {
+            var invoice = await _invoiceRepository.GetByIdAsync(id);
+            await _invoiceRepository.PayInvoice(invoice);
+            return RedirectToAction("InvoiceIndex");
+        }
+
         [Authorize(Roles = "Employee")]
         public async Task<IActionResult> EmployeeInvoiceIndex(string userId)
         {

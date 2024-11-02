@@ -21,6 +21,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Date)
             </th>
+            <th>
+                @Html.DisplayNameFor(Model => Model.IsPaid)
+            </th>
             @if (this.User.IsInRole("Employee"))
             {
                 <th>
@@ -38,6 +41,15 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Date)
             </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsPaid)
+            </td>
+                @if (this.User.IsInRole("Customer"))
+                {
+                    <td>
+                        <a asp-action="Pay" asp-route-id="@item.Id">Pay</a>
+                    </td>
+                }
                 @if (this.User.IsInRole("Employee"))
                 {
                     <td>

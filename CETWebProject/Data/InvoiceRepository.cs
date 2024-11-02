@@ -97,5 +97,12 @@ namespace CETWebProject.Data
                 .Include(i => i.User)
                 .FirstOrDefault();
         }
+
+        public async Task PayInvoice(Invoice invoice)
+        {
+            invoice.IsPaid = true;
+            _context.Update(invoice);
+            await _context.SaveChangesAsync();
+        }
     }
 }
