@@ -8,6 +8,8 @@ namespace CETWebProject.Data.Entities
 
         public decimal Value { get; set; }
 
+        public bool IsPaid { get; set; }
+
         public DateTime Date { get; set; }
 
         public User User { get; set; }

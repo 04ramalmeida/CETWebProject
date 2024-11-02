@@ -81,7 +81,6 @@ namespace CETWebProject.Data
         public async Task<WaterMeter> GetWaterMeterWithUser(int id)
         {
             return await _context.waterMeters.Where(m => m.Id == id)
-                .Include(m => m.Username)
                 .FirstOrDefaultAsync();
         }
 
@@ -89,7 +88,6 @@ namespace CETWebProject.Data
         {
             return await _context.monthlyReadings.Where(m => m.Id == id)
                 .Include(m => m.WaterMeter)
-                .Include(m => m.WaterMeter.Username)
                 .FirstOrDefaultAsync();
         }
 

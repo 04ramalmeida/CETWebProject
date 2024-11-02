@@ -22,7 +22,6 @@ namespace CETWebProject.Data
         public async Task<T> GetByIdAsync(int id)
         {
             return await _context.Set<T>()
-                .AsNoTracking()
                 .FirstOrDefaultAsync(e => e.Id == id);
         }
 
