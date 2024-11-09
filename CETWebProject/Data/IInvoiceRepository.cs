@@ -14,5 +14,7 @@ namespace CETWebProject.Data
         Invoice GetInvoiceWithUser(int id);
 
         Task PayInvoice(Invoice invoice);
+
+        Invoice GetLastUnpaidInvoice();
     }
 }

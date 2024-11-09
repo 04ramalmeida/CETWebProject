@@ -44,7 +44,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.IsPaid)
             </td>
-                @if (this.User.IsInRole("Customer"))
+                @if (this.User.IsInRole("Customer") && item.IsPaid == false)
                 {
                     <td>
                         <a asp-action="Pay" asp-route-id="@item.Id">Pay</a>

@@ -1,0 +1,22 @@
+﻿@model List<CETWebProject.Data.Entities.Echelons>
+@{
+    ViewData["Title"] = "Admin Center - Echelon Management";
+}
+
+<h2>Echelon Management</h2>
+
+<form asp-action="Index">
+
+    @for (int i = 0; i < Model.Count; i++)
+    {
+        <div class="form-group">
+            <label asp-for="@Model[i].Value" class="control-label">Value for echelon number @Model[i].Id</label>
+            <input asp-for="@Model[i].Value" class="form-control" />
+            <input type="hidden" asp-for="@Model[i].Id" />
+            <span asp-validation-for="@Model[i].Value" class="text-danger"></span>
+        </div>
+    }
+    <div class="form-group">
+        <input type="submit" value="Save" class="btn btn-primary" />
+    </div>
+</form>

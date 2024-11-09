@@ -15,6 +15,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace CETWebProject
 {
@@ -49,11 +50,25 @@ namespace CETWebProject
                 .AddCookie()
                 .AddJwtBearer(cfg =>
                 {
+                    cfg.IncludeErrorDetails = true;
                     cfg.TokenValidationParameters = new TokenValidationParameters
                     {
-                        ValidIssuer = this.Configuration["Tokens:Issuer"],
-                        ValidAudience = this.Configuration["Tokens:Audience"],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this.Configuration["Tokens:Key"]))
+                        ValidIssuer = this.Configuration["Token:Issuer"],
+                        ValidAudience = this.Configuration["Token:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this.Configuration["Token:Key"]))
+                    };
+                    cfg.Events = new JwtBearerEvents
+                    {
+                        OnAuthenticationFailed = context =>
+                        {
+                            var validAudience = context.Response ;
+                            var configuredAudience = this.Configuration["Tokens:Audience"];
+
+                            Console.WriteLine($"Token Audience: {validAudience}");
+                            Console.WriteLine($"Configured Audience: {configuredAudience}");
+
+                            return Task.CompletedTask;
+                        }
                     };
                 });
 
@@ -65,6 +80,7 @@ namespace CETWebProject
             services.AddTransient<IUserHelper, UserHelper>();
             services.AddTransient<IMailHelper, MailHelper>();
             services.AddTransient<IImageHelper, ImageHelper>();
+            services.AddScoped<IEchelonRepository, EchelonRepository>();
             services.AddScoped<IWaterMeterRepository, WaterMeterRepository>();
             services.AddScoped<IInvoiceRepository, InvoiceRepository>();
             services.AddScoped<IUserTempRepository, UserTempRepository>();

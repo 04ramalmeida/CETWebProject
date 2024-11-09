@@ -28,6 +28,11 @@ namespace CETWebProject.Data
         {
             await _context.Database.MigrateAsync();
 
+            if (!_context.echelons.Any())
+            {
+                PopulateEchelons();
+            }
+
             await _userHelper.CheckRoleAsync("Admin");
             await _userHelper.CheckRoleAsync("Employee");
             await _userHelper.CheckRoleAsync("Customer");
@@ -74,22 +79,18 @@ namespace CETWebProject.Data
 
        
 
-        private async Task AddMeter() 
-        {
-            var customer = await _userHelper.GetUserByEmailAsync("jalmshopuser1@yopmail.com");
 
-            _context.waterMeters.Add(new WaterMeter
+        private void PopulateEchelons()
+        {
+            double[] Values = { 0.3, 0.8, 1.2, 1.6 };
+
+            for (int i = 0; i < 3; i++)
             {
-                Username = customer.UserName,
-                Readings = new List<Reading>
+                _context.echelons.Add(new Echelons
                 {
-                    new Reading
-                    {
-                        ReadingTime = DateTime.Now,
-                        UsageAmount = 0.01
-                    }
-                }
-            });
+                    Value = Values[i]
+                });
+            }
         }
     }
 }

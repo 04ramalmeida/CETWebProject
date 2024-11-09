@@ -22,5 +22,7 @@ namespace CETWebProject.Data
         public DbSet<MeterTemp> metersTemp { get; set; }
 
         public DbSet<UserTemp> usersTemp { get; set; }
+
+        public DbSet<Echelons> echelons { get; set; }
     }
 }
