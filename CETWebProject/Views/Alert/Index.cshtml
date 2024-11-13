@@ -1,0 +1,36 @@
+﻿@model IEnumerable<CETWebProject.Data.Entities.Alert>
+@{
+    ViewData["Title"] = "Your Alerts";
+}
+
+<h2>User Center</h2>
+<h3>Your alerts</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    <div class="container">
+                        <h2>
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </h2>
+                        <p>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </p>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

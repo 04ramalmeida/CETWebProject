@@ -84,6 +84,7 @@ namespace CETWebProject
             services.AddScoped<IWaterMeterRepository, WaterMeterRepository>();
             services.AddScoped<IInvoiceRepository, InvoiceRepository>();
             services.AddScoped<IUserTempRepository, UserTempRepository>();
+            services.AddScoped<IAlertRepository, AlertRepository>();
             services.AddControllersWithViews();
         }
 

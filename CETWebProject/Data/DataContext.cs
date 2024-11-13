@@ -24,5 +24,7 @@ namespace CETWebProject.Data
         public DbSet<UserTemp> usersTemp { get; set; }
 
         public DbSet<Echelons> echelons { get; set; }
+
+        public DbSet<Alert> alerts { get; set; }
     }
 }
