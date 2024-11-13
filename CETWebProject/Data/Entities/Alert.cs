@@ -1,4 +1,6 @@
-﻿namespace CETWebProject.Data.Entities
+﻿using System;
+
+namespace CETWebProject.Data.Entities
 {
     public class Alert : IEntity
     {
@@ -7,6 +9,8 @@
         public string Title { get; set; }
 
         public string Description { get; set; }
+
+        public DateTime Date { get; set; }
 
         public User User { get; set; }
     }

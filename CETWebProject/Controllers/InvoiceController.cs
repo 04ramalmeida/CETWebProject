@@ -17,14 +17,17 @@ namespace CETWebProject.Controllers
         private readonly IInvoiceRepository _invoiceRepository;
         private readonly IWaterMeterRepository _waterMeterRepository;
         private readonly IUserHelper _userHelper;
+        private readonly IAlertRepository _alertRepository;
 
         public InvoiceController(IInvoiceRepository invoiceRepository,
             IWaterMeterRepository waterMeterRepository,
+            IAlertRepository alertRepository,
             IMailHelper mailHelper,
             IUserHelper userHelper)
         {
             _invoiceRepository = invoiceRepository;
             _waterMeterRepository = waterMeterRepository;
+            _alertRepository = alertRepository;
             _mailHelper = mailHelper;
             _userHelper = userHelper;
         }
@@ -85,11 +88,20 @@ namespace CETWebProject.Controllers
             await _invoiceRepository.AddInvoiceAsync(user.Id, reading.UsageAmount);
             string tokenLink = Url.Action("InvoiceIndex", "Invoice","", protocol: HttpContext.Request.Scheme);
 
-            Response response = _mailHelper.SendEmail(reading.WaterMeter.Username,
+            await _alertRepository.CreateAsync(new Alert
+            {
+                Title = "New Invoice",
+                Description = $"A new invoice has been issued. To see the details, please click <a href=\"{tokenLink}\">here</a>.",
+                User = user,
+                Date = DateTime.Now
+            });
+
+            /*Response response = _mailHelper.SendEmail(reading.WaterMeter.Username,
                 "New Invoice",
                 "A new invoice has been issued. To see the details, please click on the link below." +
                 "</br>" +
-                $"<a href=\"{tokenLink}\">Check my invoices</a>");
+                $"<a href=\"{tokenLink}\">Check my invoices</a>");*/
+
             return RedirectToAction("EmployeeInvoiceIndex", new { userId = user.Id });
         }
 

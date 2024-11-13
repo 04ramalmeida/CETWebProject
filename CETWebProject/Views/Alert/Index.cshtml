@@ -9,7 +9,11 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Id)
+                #
+            </th>
+            <th>
+                Alert
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -25,7 +29,12 @@
                             @Html.DisplayFor(modelItem => item.Title)
                         </h2>
                         <p>
-                            @Html.DisplayFor(modelItem => item.Description)
+                            @Html.Raw(item.Description)
+                        </p>
+                        <p>
+                            <small>
+                                Alert sent on @Html.DisplayFor(modelItem => item.Date) <!--To string-->
+                            </small>
                         </p>
                     </div>
                 </td>
