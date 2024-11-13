@@ -85,7 +85,7 @@ namespace CETWebProject.Controllers
         {
             var reading = await _waterMeterRepository.GetReadingByIdAsync(id);
             var user = await _userHelper.GetUserByEmailAsync(reading.WaterMeter.Username);
-            await _invoiceRepository.AddInvoiceAsync(user.Id, reading.UsageAmount);
+            await _invoiceRepository.AddInvoiceAsync(user.Id, reading.UsageAmount, reading);
             string tokenLink = Url.Action("InvoiceIndex", "Invoice","", protocol: HttpContext.Request.Scheme);
 
             await _alertRepository.CreateAsync(new Alert

@@ -10,6 +10,8 @@ namespace CETWebProject.Data.Entities
 
         public bool IsPaid { get; set; }
 
+        public Reading reading { get; set; }
+
         public DateTime Date { get; set; }
 
         public User User { get; set; }

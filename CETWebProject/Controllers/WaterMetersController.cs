@@ -5,6 +5,7 @@ using CETWebProject.Data.Entities;
 using CETWebProject.Helpers;
 using CETWebProject.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace CETWebProject.Controllers
@@ -152,8 +153,20 @@ namespace CETWebProject.Controllers
             {
                 return NotFound();
             }
-            await _waterMeterRepository.DeleteReadingAsync(reading);
-            return RedirectToAction($"Details", new { id = meterId});
+            try
+            {
+                await _waterMeterRepository.DeleteReadingAsync(reading);
+                return RedirectToAction($"Details", new { id = meterId });
+            }
+            catch (DbUpdateException ex)
+            {
+                if (ex.InnerException != null && ex.InnerException.Message.Contains("DELETE"))
+                {
+                    ViewBag.ErrorTitle = "Error in deleting reading";
+                    ViewBag.ErrorMessage = "We were unable to delete this reading, this usually happens if an invoice associated with it has already been issued.";
+                }
+                return View("Error");
+            }
         }
 
         public async Task<IActionResult> RequestMeterByUser()

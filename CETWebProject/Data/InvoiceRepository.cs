@@ -21,14 +21,15 @@ namespace CETWebProject.Data
             _echelonRepository = echelonRepository;
         }
 
-        public async Task AddInvoiceAsync(string userId, double usageAmount)
+        public async Task AddInvoiceAsync(string userId, double usageAmount, Reading reading)
         {
             var user = await _userHelper.GetUserById(userId);
             var newInvoice = new Invoice
             {
                 Value = await ComputeValue(usageAmount),
                 Date = DateTime.Now,
-                User = user
+                User = user,
+                reading = reading
             };
             _context.Add(newInvoice);
             await _context.SaveChangesAsync();
