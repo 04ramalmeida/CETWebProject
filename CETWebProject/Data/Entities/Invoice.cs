@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace CETWebProject.Data.Entities
 {
@@ -6,7 +8,16 @@ namespace CETWebProject.Data.Entities
     {
         public int Id { get; set; }
 
-        public decimal Value { get; set; }
+        public decimal TotalValue { get; set; }
+
+        [DisplayName("First Echelon")]
+        public decimal FirstDecimalValue { get; set; }
+
+        [DisplayName("Second Echelon")]
+        public decimal SecondDecimalValue { get; set; }
+
+        [DisplayName("Third Echelon")]
+        public decimal ThirdDecimalValue { get; set; }
 
         public bool IsPaid { get; set; }
 

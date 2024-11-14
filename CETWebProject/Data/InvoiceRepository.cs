@@ -23,70 +23,90 @@ namespace CETWebProject.Data
 
         public async Task AddInvoiceAsync(string userId, double usageAmount, Reading reading)
         {
+            List<decimal> results = await ComputeValue(usageAmount);
             var user = await _userHelper.GetUserById(userId);
             var newInvoice = new Invoice
             {
-                Value = await ComputeValue(usageAmount),
+                TotalValue = results.Last(),
                 Date = DateTime.Now,
                 User = user,
-                reading = reading
+                reading = reading,
+                FirstDecimalValue = results.First(),
+                SecondDecimalValue = results.ElementAt(1),
+                ThirdDecimalValue = results.ElementAt(2)
             };
             _context.Add(newInvoice);
             await _context.SaveChangesAsync();
         }
 
-        private async Task<decimal> ComputeValue(double usageAmount)
+        private async Task<List<decimal>> ComputeValue(double usageAmount)
         {
+            List<decimal> results = new List<decimal>(new decimal[4]);
             var firstEchelon = await _echelonRepository.GetByIdAsync(1);
             var secondEchelon = await _echelonRepository.GetByIdAsync(2);
             var thirdEchelon = await _echelonRepository.GetByIdAsync(3);
             double aux = usageAmount;
-            decimal result = 0;
+            decimal total = 0;
             while (aux > 0)
             {
                 if (usageAmount <= 5)
                 {
-                    result = Convert.ToDecimal((usageAmount * firstEchelon.Value));
+                    var firstpass = Convert.ToDecimal((usageAmount * firstEchelon.Value));
+                    total = firstpass;
+                    results[0] = firstpass;
                     aux = 0;
                 }
                 else
                 {
-                    result += Convert.ToDecimal((5 * firstEchelon.Value));
+                    var secondpass = Convert.ToDecimal((5 * firstEchelon.Value));
+                    total += secondpass;
+                    results[0] = secondpass;
                     aux -= 5;
                     if (usageAmount > 5)
                     {
                         if (aux > 10)
                         {
-                            result += Convert.ToDecimal(10 * secondEchelon.Value);
+                            var thirdpass = Convert.ToDecimal(10 * secondEchelon.Value);
+                            total += thirdpass;
+                            results[1] = thirdpass;
                             aux -= 10;
                         }
                         else
                         {
-                            result += Convert.ToDecimal(aux * secondEchelon.Value);
+                            var fourthpass = Convert.ToDecimal(aux * secondEchelon.Value);
+                            total += fourthpass;
+                            results[1] = fourthpass;
                             aux = 0;
                         }
                         if (usageAmount > 15)
                         {
                             if (aux > 20)
                             {
-                                result += Convert.ToDecimal(20 * secondEchelon.Value);
+                                var fifthpass = Convert.ToDecimal(20 * secondEchelon.Value);
+                                total += fifthpass;
+                                results[1] = fifthpass;
                                 aux -= 20;
                             }
                             else
                             {
-                                result += Convert.ToDecimal(aux * thirdEchelon.Value);
+                                var sixthpass = Convert.ToDecimal(aux * thirdEchelon.Value);
+                                total += sixthpass;
+                                results[2] = sixthpass;
                                 aux = 0;
                             }
                             if (usageAmount > 25)
                             {
-                                result += Convert.ToDecimal(aux * thirdEchelon.Value);
+                                var seventhpass = Convert.ToDecimal(aux * thirdEchelon.Value);
+                                total += seventhpass;
+                                results[2] = seventhpass;
                                 aux = 0;
                             }
                         }
                     }
                 }
             }
-            return result;
+            results[3] = total;
+            return results;
         }
 
         public async Task<ICollection<Invoice>> GetInvoicesByUserAsync(string userId)

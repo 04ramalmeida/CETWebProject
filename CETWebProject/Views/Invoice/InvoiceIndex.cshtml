@@ -16,10 +16,19 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Value)
+                @Html.DisplayNameFor(model => model.TotalValue)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstDecimalValue)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SecondDecimalValue)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ThirdDecimalValue)
             </th>
             <th>
                 @Html.DisplayNameFor(Model => Model.IsPaid)
@@ -36,10 +45,19 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Value)
+                @Html.DisplayFor(modelItem => item.TotalValue)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstDecimalValue)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SecondDecimalValue)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ThirdDecimalValue)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.IsPaid)
