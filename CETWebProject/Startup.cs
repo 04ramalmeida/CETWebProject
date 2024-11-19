@@ -57,24 +57,11 @@ namespace CETWebProject
                         ValidAudience = this.Configuration["Token:Audience"],
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this.Configuration["Token:Key"]))
                     };
-                    cfg.Events = new JwtBearerEvents
-                    {
-                        OnAuthenticationFailed = context =>
-                        {
-                            var validAudience = context.Response ;
-                            var configuredAudience = this.Configuration["Tokens:Audience"];
-
-                            Console.WriteLine($"Token Audience: {validAudience}");
-                            Console.WriteLine($"Configured Audience: {configuredAudience}");
-
-                            return Task.CompletedTask;
-                        }
-                    };
                 });
 
             services.AddDbContext<DataContext>(cfg =>
             {
-                cfg.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection"));
+                cfg.UseSqlServer(this.Configuration.GetConnectionString("SomeeConnection"));
             });
             services.AddTransient<SeedDb>();
             services.AddTransient<IUserHelper, UserHelper>();
