@@ -153,6 +153,10 @@ namespace CETWebProject.Controllers
         public async Task<IActionResult> Details(string id)
         {
             var user = await _userHelper.GetUserById(id);
+            if (user == null)
+            {
+                return new NotFoundViewResult("UserNotFound");
+            }
             UserViewModel model = new UserViewModel
             {
                 Id = user.Id,
@@ -171,6 +175,10 @@ namespace CETWebProject.Controllers
         public async Task<IActionResult> Edit(string id)
         {
             var user = await _userHelper.GetUserById(id);
+            if (user == null)
+            {
+                return new NotFoundViewResult("UserNotFound");
+            }
             var model = new EditUserViewModel();
             if (user != null) 
             {
@@ -209,6 +217,9 @@ namespace CETWebProject.Controllers
                 {
                     ModelState.AddModelError(string.Empty, response.Errors.FirstOrDefault().Description);
                 }
+            } else
+            {
+                return new NotFoundViewResult("UserNotFound");
             }
             return View(model);
         }
@@ -224,6 +235,9 @@ namespace CETWebProject.Controllers
                 model.Address = user.Address;
                 model.PhoneNumber = user.PhoneNumber;
                 model.ProfilePictureUrl = user.ProfilePicUrl;
+            } else
+            {
+                return new NotFoundViewResult("UserNotFound");
             }
 
             return View(model);
@@ -261,12 +275,16 @@ namespace CETWebProject.Controllers
                         }
 
                     }
+                    else
+                    {
+                        return new NotFoundViewResult("UserNotFound");
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
                     if (await _userHelper.GetUserById(model.Id) == null)
                     {
-                        return NotFound();
+                        return new NotFoundViewResult("UserNotFound");
                     } 
                     else
                     {
@@ -314,6 +332,10 @@ namespace CETWebProject.Controllers
                         return this.Created(string.Empty, results);
                     }
                 }
+                else
+                {
+                    return new NotFoundViewResult("UserNotFound");
+                }
             }
 
             return BadRequest();
@@ -329,7 +351,7 @@ namespace CETWebProject.Controllers
             var user = await _userHelper.GetUserById(userId);
             if (user == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("UserNotFound");
             }
 
             var model = new ConfirmEmailViewModel
@@ -353,6 +375,10 @@ namespace CETWebProject.Controllers
             if (ModelState.IsValid) 
             {
                 var user = await _userHelper.GetUserById(model.userId);
+                if (user == null) 
+                {
+                    return new NotFoundViewResult("UserNotFound");
+                }
 
                 var response = await _userHelper.ConfirmEmailAsync(user, model.token);
 
@@ -485,6 +511,10 @@ namespace CETWebProject.Controllers
         public async Task<IActionResult> AcceptUserRequest(int id)
         {
             var request = await _userTempRepository.GetByIdAsync(id);
+            if (request == null)
+            {
+                return new NotFoundViewResult("UserRequestNotFound");
+            }
             var user = await _userHelper.GetUserByEmailAsync(request.Username);
             if (user == null)
             {
@@ -545,7 +575,7 @@ namespace CETWebProject.Controllers
             var request = await _userTempRepository.GetByIdAsync(id);
             if (request == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("UserRequestNotFound");
             }
             return View(request);
         }
@@ -560,6 +590,11 @@ namespace CETWebProject.Controllers
             }
             await _userTempRepository.DeleteAsync(request);
             return RedirectToAction("AdminUserRequests");
+        }
+
+        public IActionResult NotAuthorized() 
+        {
+            return View();
         }
     }
 }

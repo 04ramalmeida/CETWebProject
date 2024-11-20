@@ -4,6 +4,7 @@ using CETWebProject.Data;
 using CETWebProject.Data.Entities;
 using CETWebProject.Helpers;
 using CETWebProject.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -25,70 +26,71 @@ namespace CETWebProject.Controllers
             _userHelper = userHelper;
         }
         // GET
+        [Authorize(Roles = "Employee")]
         public async Task<IActionResult> Index(string id)
         {
             var user = await _userHelper.GetUserById(id);
+            if (user == null) 
+            {
+                return new NotFoundViewResult("UserNotFound");
+            }
             var model = await _waterMeterRepository.GetWaterMetersByUserAsync(user.Email);
             return View(model);
         }
 
+        [Authorize(Roles = "Customer")]
         public async Task<IActionResult> UserIndex()
         {
             var model = await _waterMeterRepository.GetWaterMetersByUserAsync(this.User.Identity.Name);
             return View(model);
         }
 
-        public IActionResult Create() 
-        {
-            return View();
-        }
-
-        
-        public async Task<IActionResult> AddMeter()
-        {
-            await _waterMeterRepository.AddWaterMeterAsync("email@email.com");
-            return RedirectToAction("Index");
-        }
-
+        [Authorize(Roles = "Employee")]
         public async Task<IActionResult> Delete(int? id)
         {
             
 
             if (id == null) 
             {
-               return NotFound();
+                return new NotFoundViewResult("MeterNotFound");
             }
             var meter = await _waterMeterRepository.GetWaterMeterWithUser((int)id);
             var user = await _userHelper.GetUserByEmailAsync(meter.Username);
             if (meter == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("MeterNotFound");
             }
             await _waterMeterRepository.DeleteWaterMeterAsync(id.Value);
             return RedirectToAction("Index", new {id = user.Id});
         }
 
+        [Authorize]
         public async Task<IActionResult> Readings(int? id)
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("MeterNotFound");
             }
 
             var model = await _waterMeterRepository.GetWaterMeterWithReadings(id.Value);
+            if (model == null)
+            {
+                return new NotFoundViewResult("MeterNotFound");
+            }
             return View(model);
         }
 
+        [Authorize]
         public async Task<IActionResult> AddReading(int? id)
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("MeterNotFound");
             }
             var meter = await _waterMeterRepository.GetWaterMeterWithReadings(id.Value);
             if (meter == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("MeterNotFound");
             }
             var model = new AddReadingViewModel { WaterMeterId = meter.Id };
             return View(model);
@@ -104,19 +106,19 @@ namespace CETWebProject.Controllers
             }
             return View(model);
         }
-
+        [Authorize(Roles = "Employee")]
         public async Task<IActionResult> EditReading(int? id)
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("ReadingNotFound");
             }
             
             var reading = await _waterMeterRepository.GetReadingByIdAsync(id.Value);
 
             if (reading == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("ReadingNotFound");
             }
             
             return View(reading);
@@ -137,22 +139,24 @@ namespace CETWebProject.Controllers
 
             return View(reading);
         }
-        
+
+        [Authorize(Roles = "Employee")]
         public async Task<IActionResult> DeleteReading(int? id)
         {
             
             
             if (id == null) 
             {
-                return NotFound();
+                return new NotFoundViewResult("MeterNotfound");
             }
 
             var reading = await _waterMeterRepository.GetReadingByIdAsync(id.Value);
-            var meterId = _waterMeterRepository.GetMeterIdByReading(reading);
             if (reading == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("ReadingNotFound");
             }
+            var meterId = _waterMeterRepository.GetMeterIdByReading(reading);
+            
             try
             {
                 await _waterMeterRepository.DeleteReadingAsync(reading);
@@ -169,6 +173,7 @@ namespace CETWebProject.Controllers
             }
         }
 
+        [Authorize(Roles = "Customer")]
         public async Task<IActionResult> RequestMeterByUser()
         {
             var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
@@ -180,19 +185,29 @@ namespace CETWebProject.Controllers
                     Date = DateTime.Now,
                 });
             }
+            else
+            {
+                return new NotFoundViewResult("UserNotFound");
+            }
             //TODO make this work somehow ViewBag.Message("Your request has been sent.");
             return RedirectToAction($"UserIndex");
         }
 
+        [Authorize(Roles = "Employee")]
         public async Task<IActionResult> MeterRequests()
         {
             var requests = await _waterMeterRepository.GetAllMeterTemp();
             return View(requests);
         }
 
+        [Authorize(Roles = "Employee")]
         public async Task<IActionResult> Deliver (int id)
         {
             var request = await _waterMeterRepository.GetRequestById(id);
+            if (request == null)
+            {
+                return new NotFoundViewResult("MeterRequestNotFound");
+            }
             //await _waterMeterRepository.AddWaterMeterAsync(request.User.Email);
             //var userId = request.User.Id;
             await _waterMeterRepository.RemoveRequest(request);
@@ -200,13 +215,18 @@ namespace CETWebProject.Controllers
             return RedirectToAction("MeterRequests");
         }
 
+        [Authorize(Roles = "Employee")]
         public async Task<IActionResult> Deny (int id)
         {
             var request = await _waterMeterRepository.GetRequestById(id);
-            var user = await _userHelper.GetUserByEmailAsync(request.Username);
-            if (user.Id == null)
+            if (request == null)
             {
-                return RedirectToAction("MeterRequests", new { id = user.Id });
+                return new NotFoundViewResult("MeterRequestNotFound");
+            }
+            var user = await _userHelper.GetUserByEmailAsync(request.Username);
+            if (user == null)
+            {
+                return new NotFoundViewResult("UserNotFound");
             }
             var userId = user.Id;
             await _waterMeterRepository.RemoveRequest(request);

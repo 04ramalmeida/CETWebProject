@@ -45,6 +45,10 @@ namespace CETWebProject.Controllers
         public async Task<IActionResult> Pay(int id)
         {
             var invoice = await _invoiceRepository.GetByIdAsync(id);
+            if (invoice == null)
+            {
+                return new NotFoundViewResult("InvoiceNotFound");
+            }
             await _invoiceRepository.PayInvoice(invoice);
             return RedirectToAction("InvoiceIndex");
         }
@@ -52,8 +56,13 @@ namespace CETWebProject.Controllers
         [Authorize(Roles = "Employee")]
         public async Task<IActionResult> EmployeeInvoiceIndex(string userId)
         {
-            var model = await _invoiceRepository.GetInvoicesByUserAsync(userId);
             var user = await _userHelper.GetUserById(userId);
+            if (user == null)
+            {
+                return new NotFoundViewResult("UserNotFound");
+            }
+            var model = await _invoiceRepository.GetInvoicesByUserAsync(userId);
+            
             ViewBag.UserId = userId;    
             return View("InvoiceIndex",model);
         }
@@ -81,9 +90,14 @@ namespace CETWebProject.Controllers
             return View(model);
         }*/
 
+        [Authorize(Roles = "Employee")]
         public async Task<IActionResult> EmployeeIssueInvoice (int id)
         {
             var reading = await _waterMeterRepository.GetReadingByIdAsync(id);
+            if (reading == null)
+            {
+                return new NotFoundViewResult("ReadingNotFound");
+            }
             var user = await _userHelper.GetUserByEmailAsync(reading.WaterMeter.Username);
             await _invoiceRepository.AddInvoiceAsync(user.Id, reading.UsageAmount, reading);
             string tokenLink = Url.Action("InvoiceIndex", "Invoice","", protocol: HttpContext.Request.Scheme);
@@ -105,9 +119,14 @@ namespace CETWebProject.Controllers
             return RedirectToAction("EmployeeInvoiceIndex", new { userId = user.Id });
         }
 
+        [Authorize(Roles = "Employee")]
         public async Task<IActionResult> Delete (int id)
         {
             var invoice = _invoiceRepository.GetInvoiceWithUser(id);
+            if (invoice == null)
+            {
+                return new NotFoundViewResult("InvoiceNotFound");
+            }
             await _invoiceRepository.DeleteAsync(invoice);
             return RedirectToAction("InvoiceIndex", new { userId = invoice.User.Id });
         }
