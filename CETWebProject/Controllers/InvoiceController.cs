@@ -44,10 +44,14 @@ namespace CETWebProject.Controllers
         [Authorize(Roles ="Customer")]
         public async Task<IActionResult> Pay(int id)
         {
-            var invoice = await _invoiceRepository.GetByIdAsync(id);
+            var invoice = _invoiceRepository.GetInvoiceWithUser(id);
             if (invoice == null)
             {
                 return new NotFoundViewResult("InvoiceNotFound");
+            }
+            if (invoice.User.UserName != this.User.Identity.Name)
+            {
+                return RedirectToAction("NotAuthorized", "Account", null);
             }
             await _invoiceRepository.PayInvoice(invoice);
             return RedirectToAction("InvoiceIndex");

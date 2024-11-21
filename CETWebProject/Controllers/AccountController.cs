@@ -592,7 +592,7 @@ namespace CETWebProject.Controllers
             return RedirectToAction("AdminUserRequests");
         }
 
-        public IActionResult NotAuthorized() 
+        public IActionResult NotAuthorized()
         {
             return View();
         }

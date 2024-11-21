@@ -80,9 +80,11 @@ namespace CETWebProject.Controllers
             return View(model);
         }
 
-        [Authorize]
+        [Authorize(Roles = "Employee,Customer")]
         public async Task<IActionResult> AddReading(int? id)
         {
+            
+
             if (id == null)
             {
                 return new NotFoundViewResult("MeterNotFound");
@@ -91,6 +93,13 @@ namespace CETWebProject.Controllers
             if (meter == null)
             {
                 return new NotFoundViewResult("MeterNotFound");
+            }
+            if (User.IsInRole("Customer"))
+            {
+                if (meter.Username == this.User.Identity.Name)
+                {
+                    return RedirectToAction("NotAuthorized", "Account", null);
+                }
             }
             var model = new AddReadingViewModel { WaterMeterId = meter.Id };
             return View(model);
