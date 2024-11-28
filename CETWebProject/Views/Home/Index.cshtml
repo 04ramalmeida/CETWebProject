@@ -1,8 +1,59 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "AQUA";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div id="slides" class="ms-slides" data-delay="8000" data-transition="800">
+    <!-- Define the Slide Show Elements -->
+    <div class="ms-slides__inner">
+        <img src="~/img/slide-1.jpg" alt="1st slide"/>
+        <img src="~/img/slide-2.jpg" alt="2nd slide" />
+        <img src="~/img/slide-3.jpg" alt="3rd slide" />
+    </div>
+
+    <!-- Show Indicators -->
+    <ol class="ms-slides__indicators">
+        <!-- slide indicators -->
+    </ol>
+
+    <!-- Show Next and Previous Buttons -->
+    <a href="#" class="ms-slides__next-button"></a>
+    <a href="#" class="ms-slides__prev-button"></a>
+</div>
+<div class="container">
+    <main class="pb-3 home-main">
+        <h2 class="text-center">Why should you join AQUA?</h2>
+        <div class="container">
+            <div class="row home-grid">
+                <div class="col-sm">
+                    <h4>Cheaper prices</h4>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vehicula sit amet nisl ac hendrerit. Fusce tincidunt a turpis ac consequat. Phasellus eleifend mauris ac neque pellentesque, nec mattis lacus elementum. Curabitur elementum luctus urna, at pharetra orci ornare vestibulum. Proin maximus, orci a aliquet consectetur, sem justo venenatis purus, nec laoreet sapien quam ut ligula.
+                    </p>
+                    </div>
+                <div class="col-sm">
+                    <h4>Humanitarianism</h4>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vehicula sit amet nisl ac hendrerit. Fusce tincidunt a turpis ac consequat. Phasellus eleifend mauris ac neque pellentesque, nec mattis lacus elementum. Curabitur elementum luctus urna, at pharetra orci ornare vestibulum. Proin maximus, orci a aliquet consectetur, sem justo venenatis purus, nec laoreet sapien quam ut ligula.
+                    </p>
+                </div>
+                <div class="col-sm">
+                    <h4>Environtalism</h4>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vehicula sit amet nisl ac hendrerit. Fusce tincidunt a turpis ac consequat. Phasellus eleifend mauris ac neque pellentesque, nec mattis lacus elementum. Curabitur elementum luctus urna, at pharetra orci ornare vestibulum. Proin maximus, orci a aliquet consectetur, sem justo venenatis purus, nec laoreet sapien quam ut ligula.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="container request-container">
+            <h2 class="text-center">What are you waiting for?</h2>
+            @if (this.User.Identity.IsAuthenticated)
+            {
+                <button type="button" class="btn btn-secondary btn-lg" disabled>You've already got an account</button>
+            }
+            else
+            {
+                <a asp-controller="Account" asp-action="RequestAccount" class="btn btn-primary">Request an account and a meter now!</a>
+            }
+        </div>
+    </main>
 </div>

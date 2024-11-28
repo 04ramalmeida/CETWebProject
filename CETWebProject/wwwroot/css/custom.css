@@ -1,3 +1,68 @@
+nav {
+    margin-bottom: 0px;
+}
+
 .logo {
     max-height: 32px;
+}
+
+
+.slide-container {
+    width: 1920px;
+}
+
+#slideshow > img {
+    max-width: 1vh
+}
+
+.request-container {
+    display:flex;
+    flex-direction: column;
+    row-gap: 16px;
+    align-items: center;
+}
+
+
+.home-grid {
+    gap: 20px
+}
+
+main.home-main {
+    padding: 32px;
+}
+
+main.home-main > * {
+    padding: 16px;
+}
+
+.home-grid > .col-sm {
+    background-color: #f7f8fa;
+    border-radius: 8px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: lightgray;
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.1);
+    padding: 8px;
+}
+
+/* Developer Styles */
+#slides {
+    height: 400px;
+    margin: auto;
+}
+
+.small-slides {
+    width: 300px;
+    height: 169px;
+    margin: auto;
+}
+
+.card-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.card-row > div {
+    margin: 1em;
+    flex: 1;
 }
