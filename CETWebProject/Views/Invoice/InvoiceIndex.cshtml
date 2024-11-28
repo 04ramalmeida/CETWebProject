@@ -33,12 +33,9 @@
             <th>
                 @Html.DisplayNameFor(Model => Model.IsPaid)
             </th>
-            @if (this.User.IsInRole("Employee"))
-            {
-                <th>
+            <th data-dt-order="disable">
                     Actions
-                </th>
-            }
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -68,6 +65,12 @@
                         <a asp-action="Pay" asp-route-id="@item.Id">Pay</a>
                     </td>
                 }
+                else 
+                {
+                    <td>
+                        You've already paid this invoice.
+                    </td>
+                }
                 @if (this.User.IsInRole("Employee"))
                 {
                     <td>
@@ -78,3 +81,12 @@
 }
     </tbody>
 </table>
+
+@section Scripts
+                {
+    <script type="text/javascript">
+        $(document).ready( function () {
+            $('.table').DataTable();
+        } );
+    </script>
+}

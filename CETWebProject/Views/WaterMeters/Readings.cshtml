@@ -17,7 +17,7 @@
         
     </p>
     @{
-        Html.RenderPartial("_ReadingList", Model.Readings);
+        await Html.RenderPartialAsync("_ReadingList", Model.Readings);
     }
 </div>
 <div>

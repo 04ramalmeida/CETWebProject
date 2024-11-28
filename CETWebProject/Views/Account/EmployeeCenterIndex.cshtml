@@ -21,6 +21,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.SignUpDateTime)
             </th>
+            <th data-dt-order="disable">
+                Actions
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -56,3 +59,11 @@
     </tbody>
 </table>
 
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).ready( function () {
+            $('.table').DataTable();
+        } );
+    </script>
+}

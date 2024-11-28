@@ -11,7 +11,7 @@
             <th>
                 #
             </th>
-            <th>
+            <th data-dt-order="disable">
                 Alert
             </th>
         </tr>
@@ -42,4 +42,13 @@
         }
     </tbody>
 </table>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).ready( function () {
+            $('.table').DataTable();
+        } );
+    </script>
+}
 

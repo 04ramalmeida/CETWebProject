@@ -14,7 +14,7 @@
         <thead>
             <tr>
                 <th>Water Meter Identification #</th>
-                <th>Actions</th>
+                <th data-dt-order="disable">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -34,4 +34,13 @@
 } else
 {
     <p>You possess no water meters.</p>
+}
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).ready( function () {
+            $('.table').DataTable();
+        } );
+    </script>
 }

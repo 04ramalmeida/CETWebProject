@@ -14,7 +14,7 @@
             <th>
                 Email
             </th>
-            <th>
+            <th data-dt-order="disable">
                 Actions
             </th>
         </tr>
@@ -46,3 +46,11 @@
     </tbody>
 </table>
 
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).ready( function () {
+            $('.table').DataTable();
+        } );
+    </script>
+}

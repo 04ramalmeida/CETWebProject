@@ -6,7 +6,6 @@
 
 <h1>MeterRequests</h1>
 
-<p>
 <table class="table">
     <thead>
         <tr>
@@ -16,23 +15,36 @@
             <th>
                 User email
             </th>
-            <th></th>
+            <th data-dt-order="disable">
+                Actions
+            </th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Username)
-            </td>
-            <td>
-                <a asp-action="Deliver" asp-route-id="@item.Id">Deliver Meter</a> 
-                <a asp-action="Deny" asp-route-id="@item.Id">Deny Request</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Username)
+                </td>
+                <td>
+                    <a asp-action="Deliver" asp-route-id="@item.Id">Deliver Meter</a>
+                    <a asp-action="Deny" asp-route-id="@item.Id">Deny Request</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+
+@section Scripts
+    {
+    <script type="text/javascript">
+        $(document).ready( function () {
+            $('.table').DataTable();
+        } );
+    </script>
+}

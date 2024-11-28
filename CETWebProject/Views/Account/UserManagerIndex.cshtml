@@ -10,7 +10,7 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
+            <th data-dt-order="disable">
                 @Html.DisplayNameFor(model => model.ProfileFullPath)
             </th>
             <th>
@@ -24,6 +24,9 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.SignUpDateTime)
+            </th>
+            <th data-dt-order="disable">
+                Actions
             </th>
         </tr>
     </thead>
@@ -62,3 +65,11 @@
     </tbody>
 </table>
 
+@section Scripts 
+{
+    <script type="text/javascript">
+        $(document).ready( function () {
+            $('.table').DataTable();
+        } );
+    </script>
+}

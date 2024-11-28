@@ -9,27 +9,40 @@
             <th>
                 @Html.DisplayNameFor(model => model.ReadingTime)
             </th>
-            <th></th>
+            <th data-dt-order="disable">Actions</th>
         </tr>
+
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.UsageAmount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReadingTime)
-            </td>
-            <td>
-                    @if (this.User.IsInRole("Employee"))
-                    {
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UsageAmount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReadingTime)
+                </td>
+                @if (this.User.IsInRole("Employee"))
+                {
+
+                    <td>
                         <a asp-action="EditReading" asp-route-id="@item.Id">Edit</a>
-                        <a asp-action = "DeleteReading" asp-route-id = "@item.Id"> Delete </a>
+                        <a asp-action="DeleteReading" asp-route-id="@item.Id"> Delete </a>
                         <a asp-controller="Invoice" asp-action="EmployeeIssueInvoice" asp-route-id="@item.Id"> Issue an invoice </a>
-                    }
-            </td>
-        </tr>
-}
+                    </td>
+
+                }
+            </tr>
+        }
     </tbody>
 </table>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).ready( function () {
+            $('.table').DataTable();
+        } );
+    </script>
+}

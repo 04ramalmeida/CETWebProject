@@ -80,6 +80,7 @@ namespace CETWebProject.Controllers
             return View(model);
         }
 
+        // TODO: Fix this
         [Authorize(Roles = "Employee,Customer")]
         public async Task<IActionResult> AddReading(int? id)
         {

@@ -9,7 +9,10 @@
 <table class="table">
     <thead>
         <tr>
-            <th></th>
+            <th>Watermeter ID</th>
+            <th data-dt-order="disable">
+                Actions
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -17,6 +20,8 @@
         <tr>
             <td>
                 <p>@item.Id</p>
+            </td>
+            <td>
                 <a asp-action="Readings" asp-route-id="@item.Id">Readings</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
@@ -24,3 +29,13 @@
 }
     </tbody>
 </table>
+
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).ready( function () {
+            $('.table').DataTable();
+        } );
+    </script>
+}
