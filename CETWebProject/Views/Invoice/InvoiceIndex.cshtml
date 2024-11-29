@@ -62,10 +62,10 @@
                 @if (this.User.IsInRole("Customer") && item.IsPaid == false)
                 {
                     <td>
-                        <a asp-action="Pay" asp-route-id="@item.Id">Pay</a>
+                        <a asp-action="Pay" asp-route-id="@item.Id" class="btn btn-primary">Pay</a>
                     </td>
                 }
-                else 
+                else if (this.User.IsInRole("Customer"))
                 {
                     <td>
                         You've already paid this invoice.
@@ -74,7 +74,7 @@
                 @if (this.User.IsInRole("Employee"))
                 {
                     <td>
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
                     </td>
                 }
             </tr>

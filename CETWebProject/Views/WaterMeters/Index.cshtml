@@ -22,8 +22,8 @@
                 <p>@item.Id</p>
             </td>
             <td>
-                <a asp-action="Readings" asp-route-id="@item.Id">Readings</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Readings" asp-route-id="@item.Id" class="btn btn-primary">Readings</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
             </td>
         </tr>
 }

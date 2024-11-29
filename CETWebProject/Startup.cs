@@ -61,7 +61,7 @@ namespace CETWebProject
 
             services.AddDbContext<DataContext>(cfg =>
             {
-                cfg.UseSqlServer(this.Configuration.GetConnectionString("SomeeConnection"));
+                cfg.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection"));
             });
             services.AddTransient<SeedDb>();
             services.AddTransient<IUserHelper, UserHelper>();

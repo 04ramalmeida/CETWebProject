@@ -36,9 +36,9 @@
                     }
                     else
                     {
-                        <a asp-controller="Account" asp-action="AcceptUserRequest" asp-route-id="@item.Id">Accept User Request</a>
-                        <a asp-controller="Account" asp-action="DenyUserRequest" asp-route-id="@item.Id">Deny User Requests</a>
-                        <a asp-controller="Account" asp-action="UserRequestDetails" asp-route-id="@item.Id">Details</a>
+                        <a asp-controller="Account" asp-action="AcceptUserRequest" asp-route-id="@item.Id" class="btn btn-success">Accept User Request</a>
+                        <a asp-controller="Account" asp-action="DenyUserRequest" asp-route-id="@item.Id" class="btn btn-danger">Deny User Requests</a>
+                        <a asp-controller="Account" asp-action="UserRequestDetails" asp-route-id="@item.Id" class="btn btn-primary">Details</a>
                     }
                 </td>
             </tr>

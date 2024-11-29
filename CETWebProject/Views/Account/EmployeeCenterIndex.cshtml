@@ -49,9 +49,9 @@
                     }
                     else
                     {
-                        <a asp-controller="WaterMeters" asp-action="Index" asp-route-id="@item.Id">Water meters</a>
+                        <a asp-controller="WaterMeters" asp-action="Index" asp-route-id="@item.Id" class="btn btn-primary">Water meters</a>
                         
-                        <a asp-controller="Invoice" asp-action="EmployeeInvoiceIndex" asp-route-userId="@item.Id">Invoices</a>
+                        <a asp-controller="Invoice" asp-action="EmployeeInvoiceIndex" asp-route-userId="@item.Id" class="btn btn-primary">Invoices</a>
                     }
                 </td>
             </tr>

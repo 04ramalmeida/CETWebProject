@@ -27,9 +27,9 @@
                 {
 
                     <td>
-                        <a asp-action="EditReading" asp-route-id="@item.Id">Edit</a>
-                        <a asp-action="DeleteReading" asp-route-id="@item.Id"> Delete </a>
-                        <a asp-controller="Invoice" asp-action="EmployeeIssueInvoice" asp-route-id="@item.Id"> Issue an invoice </a>
+                        <a asp-action="EditReading" asp-route-id="@item.Id" class="btn btn-warning">Edit</a>
+                        <a asp-action="DeleteReading" asp-route-id="@item.Id" class="btn btn-danger"> Delete </a>
+                        <a asp-controller="Invoice" asp-action="EmployeeIssueInvoice" asp-route-id="@item.Id" class="btn btn-success"> Issue an invoice </a>
                     </td>
 
                 }
