@@ -36,9 +36,15 @@
                     }
                     else
                     {
-                        <a asp-controller="Account" asp-action="AcceptUserRequest" asp-route-id="@item.Id" class="btn btn-success">Accept User Request</a>
-                        <a asp-controller="Account" asp-action="DenyUserRequest" asp-route-id="@item.Id" class="btn btn-danger">Deny User Requests</a>
-                        <a asp-controller="Account" asp-action="UserRequestDetails" asp-route-id="@item.Id" class="btn btn-primary">Details</a>
+                        <a asp-controller="Account" asp-action="AcceptUserRequest" asp-route-id="@item.Id" class="btn btn-success">
+                            <i class="fa fa-check" aria-hidden="true"></i>
+                            Accept User Request
+                        </a>
+                        <a asp-controller="Account" asp-action="DenyUserRequest" asp-route-id="@item.Id" class="btn btn-danger">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                            Deny User Requests
+                        </a>
+                        <a asp-controller="Account" asp-action="UserRequestDetails" asp-route-id="@item.Id" class="btn btn-primary"><i class="fa fa-book" aria-hidden="true"></i> Details</a>
                     }
                 </td>
             </tr>

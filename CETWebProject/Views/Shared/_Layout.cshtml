@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="~/css/custom.css" />
     <link rel="stylesheet" href="~/css/ms-slides.css"/>
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.min.css" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css">
 </head>
 <body>
     <header>
@@ -36,10 +37,10 @@
                         @if (this.User.Identity.IsAuthenticated && this.User.IsInRole("Admin"))
                         {
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
+                                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >Admin</a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="UserManagerIndex">User Management</a></li>
-                                    <li><a class="nav-link text-light" asp-area="" asp-controller="Echelon" asp-action="Index">Echelon Management</a></li>
+                                    <li><a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="UserManagerIndex">User Management</a></li>
+                                    <li><a class="nav-link text-dark" asp-area="" asp-controller="Echelon" asp-action="Index">Echelon Management</a></li>
                                 </ul>
                             </li>
                         }
@@ -75,7 +76,7 @@
                             @if (this.User.IsInRole("Customer"))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-light" asp-area="" asp-controller="Alert" asp-action="Index">Alerts</a>
+                                    <a class="nav-link text-light" asp-area="" asp-controller="Alert" asp-action="Index"><i class="fa fa-bell" aria-hidden="true"></i></a>
                                 </li>
                             }
                         }

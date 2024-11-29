@@ -31,8 +31,14 @@
                     @Html.DisplayFor(modelItem => item.Username)
                 </td>
                 <td>
-                    <a asp-action="Deliver" asp-route-id="@item.Id" class="btn btn-success">Deliver Meter</a>
-                    <a asp-action="Deny" asp-route-id="@item.Id" class="btn btn-danger">Deny Request</a>
+                    <a asp-action="Deliver" asp-route-id="@item.Id" class="btn btn-success">
+                        <i class="fa fa-check" aria-hidden="true"></i>
+                        Deliver Meter
+                    </a>
+                    <a asp-action="Deny" asp-route-id="@item.Id" class="btn btn-danger">
+                        <i class="fa fa-trash" aria-hidden="true"></i>
+                        Deny Request
+                    </a>
                 </td>
             </tr>
         }
