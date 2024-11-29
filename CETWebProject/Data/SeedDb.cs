@@ -37,16 +37,24 @@ namespace CETWebProject.Data
             await _userHelper.CheckRoleAsync("Employee");
             await _userHelper.CheckRoleAsync("Customer");
 
-            var user = await _userHelper.GetUserByEmailAsync("email@email.com");
 
-            if (user == null) 
+            await CreateAdmin();
+            await CreateEmployee();
+            
+        }
+
+       public async Task CreateAdmin()
+        {
+            var user = await _userHelper.GetUserByEmailAsync("adminaqua@yopmail.com");
+
+            if (user == null)
             {
                 user = new User
                 {
-                    FirstName = "Teste",
-                    LastName = "Etset",
-                    Email = "email@email.com",
-                    UserName = "email@email.com",
+                    FirstName = "Admin",
+                    LastName = "Administrator",
+                    Email = "adminaqua@yopmail.com",
+                    UserName = "adminaqua@yopmail.com",
                     PhoneNumber = "1234567890",
                     Address = "Morada 1234-123",
                     SignUpDateTime = DateTime.Now,
@@ -62,22 +70,58 @@ namespace CETWebProject.Data
 
             var isInRole = await _userHelper.IsUserInRoleAsync(user, "Admin");
 
-            
+
 
             if (!isInRole)
             {
                 await _userHelper.ChangeUserRolesAsync(user, "Admin");
-                
+
 
             }
             var token = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
             await _userHelper.ConfirmEmailAsync(user, token);
 
-            
-            
         }
 
-       
+        public async Task CreateEmployee()
+        {
+            var user = await _userHelper.GetUserByEmailAsync("employeeprojag@yopmail.com");
+
+            if (user == null)
+            {
+                user = new User
+                {
+                    FirstName = "Employee",
+                    LastName = "Aqua",
+                    Email = "employeeprojag@yopmail.com",
+                    UserName = "employeeprojag@yopmail.com",
+                    PhoneNumber = "1234567890",
+                    Address = "Morada 1234-123",
+                    SignUpDateTime = DateTime.Now,
+                };
+                var result = await _userHelper.AddUserAsync(user);
+                await _userHelper.AddPasswordAsync(user, "123456");
+
+                if (result != IdentityResult.Success)
+                {
+                    throw new InvalidOperationException("Couldn't create the user in seeder");
+                }
+            }
+
+            var isInRole = await _userHelper.IsUserInRoleAsync(user, "Employee");
+
+
+
+            if (!isInRole)
+            {
+                await _userHelper.ChangeUserRolesAsync(user, "Employee");
+
+
+            }
+            var token = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
+            await _userHelper.ConfirmEmailAsync(user, token);
+
+        }
 
 
         private void PopulateEchelons()
