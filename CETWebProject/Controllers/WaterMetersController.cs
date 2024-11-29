@@ -97,7 +97,7 @@ namespace CETWebProject.Controllers
             }
             if (User.IsInRole("Customer"))
             {
-                if (meter.Username == this.User.Identity.Name)
+                if (meter.Username != this.User.Identity.Name)
                 {
                     return RedirectToAction("NotAuthorized", "Account", null);
                 }
