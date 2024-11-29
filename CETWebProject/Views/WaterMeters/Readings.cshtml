@@ -20,9 +20,15 @@
         await Html.RenderPartialAsync("_ReadingList", Model.Readings);
     }
 </div>
+<!--TODO: Fix this-->
 <div>
     @if (this.User.IsInRole("Employee"))
     {
+        <a asp-action="Index">Back to Index</a>
     }
-    <a asp-action="UserIndex">Back to Index</a>
+    else if (this.User.IsInRole("Customer")) 
+    {
+        <a asp-action="UserIndex">Back to Index</a>
+    }
+    
 </div>

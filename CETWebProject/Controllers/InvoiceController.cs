@@ -132,7 +132,8 @@ namespace CETWebProject.Controllers
                 return new NotFoundViewResult("InvoiceNotFound");
             }
             await _invoiceRepository.DeleteAsync(invoice);
-            return RedirectToAction("InvoiceIndex", new { userId = invoice.User.Id });
+            
+            return RedirectToAction("EmployeeInvoiceIndex", new { userId = invoice.User.Id });
         }
     }
 }

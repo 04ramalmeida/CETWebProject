@@ -5,7 +5,14 @@
 }
 
 <h1>UserIndex</h1>
-
+@if (TempData["Message"] != null) 
+{
+    <div class="text-success">
+        <p>
+            @TempData["Message"]
+        </p>
+    </div>
+}
 <p>
     <a asp-action="RequestMeterByUser">Request a watermeter</a>
 </p>

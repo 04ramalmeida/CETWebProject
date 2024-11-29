@@ -80,7 +80,6 @@ namespace CETWebProject.Controllers
             return View(model);
         }
 
-        // TODO: Fix this
         [Authorize(Roles = "Employee,Customer")]
         public async Task<IActionResult> AddReading(int? id)
         {
@@ -170,7 +169,7 @@ namespace CETWebProject.Controllers
             try
             {
                 await _waterMeterRepository.DeleteReadingAsync(reading);
-                return RedirectToAction($"Details", new { id = meterId });
+                return RedirectToAction($"Readings", new { id = meterId });
             }
             catch (DbUpdateException ex)
             {
@@ -200,6 +199,7 @@ namespace CETWebProject.Controllers
                 return new NotFoundViewResult("UserNotFound");
             }
             //TODO make this work somehow ViewBag.Message("Your request has been sent.");
+            TempData["Message"] = "Your request has been sent.";
             return RedirectToAction($"UserIndex");
         }
 
