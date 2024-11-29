@@ -31,6 +31,9 @@
                 @Html.DisplayNameFor(model => model.ThirdDecimalValue)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.FourthDecimalValue)
+            </th>
+            <th>
                 @Html.DisplayNameFor(Model => Model.IsPaid)
             </th>
             <th data-dt-order="disable">
@@ -56,6 +59,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.ThirdDecimalValue)
             </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FourthDecimalValue)
+                </td>
             <td>
                 @Html.DisplayFor(modelItem => item.IsPaid)
             </td>

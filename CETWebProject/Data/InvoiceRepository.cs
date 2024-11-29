@@ -33,7 +33,8 @@ namespace CETWebProject.Data
                 reading = reading,
                 FirstDecimalValue = results.First(),
                 SecondDecimalValue = results.ElementAt(1),
-                ThirdDecimalValue = results.ElementAt(2)
+                ThirdDecimalValue = results.ElementAt(2),
+                FourthDecimalValue = results.ElementAt(3),
             };
             _context.Add(newInvoice);
             await _context.SaveChangesAsync();
@@ -41,10 +42,11 @@ namespace CETWebProject.Data
 
         private async Task<List<decimal>> ComputeValue(double usageAmount)
         {
-            List<decimal> results = new List<decimal>(new decimal[4]);
+            List<decimal> results = new List<decimal>(new decimal[5]);
             var firstEchelon = await _echelonRepository.GetByIdAsync(1);
             var secondEchelon = await _echelonRepository.GetByIdAsync(2);
             var thirdEchelon = await _echelonRepository.GetByIdAsync(3);
+            var fourthEchelon = await _echelonRepository.GetByIdAsync(4);
             double aux = usageAmount;
             decimal total = 0;
             while (aux > 0)
@@ -96,16 +98,16 @@ namespace CETWebProject.Data
                             }
                             if (usageAmount > 25)
                             {
-                                var seventhpass = Convert.ToDecimal(aux * thirdEchelon.Value);
+                                var seventhpass = Convert.ToDecimal(aux * fourthEchelon.Value);
                                 total += seventhpass;
-                                results[2] = seventhpass;
+                                results[3] = seventhpass;
                                 aux = 0;
                             }
                         }
                     }
                 }
             }
-            results[3] = total;
+            results[4] = total;
             return results;
         }
 

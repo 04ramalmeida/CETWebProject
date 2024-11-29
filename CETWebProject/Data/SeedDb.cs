@@ -84,7 +84,7 @@ namespace CETWebProject.Data
         {
             double[] Values = { 0.3, 0.8, 1.2, 1.6 };
 
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 4; i++)
             {
                 _context.echelons.Add(new Echelons
                 {

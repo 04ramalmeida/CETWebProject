@@ -19,6 +19,9 @@ namespace CETWebProject.Data.Entities
         [DisplayName("Third Echelon")]
         public decimal ThirdDecimalValue { get; set; }
 
+        [DisplayName("Fourth Echelon")]
+        public decimal FourthDecimalValue { get; set; }
+
         public bool IsPaid { get; set; }
 
         public Reading reading { get; set; }
