@@ -93,6 +93,7 @@ namespace CETWebProject.Helpers
                 Email = item.Email,
                 Role = _userManager.GetRolesAsync(item).Result.FirstOrDefault(),
                 SignUpDateTime = item.SignUpDateTime,
+                ProfileFullPath = item.ProfilePicFullPath
             }).ToList();
             return users;
         }

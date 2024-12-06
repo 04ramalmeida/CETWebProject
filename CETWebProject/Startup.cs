@@ -66,7 +66,7 @@ namespace CETWebProject
             services.AddTransient<SeedDb>();
             services.AddTransient<IUserHelper, UserHelper>();
             services.AddTransient<IMailHelper, MailHelper>();
-            services.AddTransient<IImageHelper, ImageHelper>();
+            services.AddTransient<IBlobHelper, BlobHelper>();
             services.AddScoped<IEchelonRepository, EchelonRepository>();
             services.AddScoped<IWaterMeterRepository, WaterMeterRepository>();
             services.AddScoped<IInvoiceRepository, InvoiceRepository>();

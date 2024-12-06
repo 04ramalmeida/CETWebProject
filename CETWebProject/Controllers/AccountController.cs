@@ -26,21 +26,21 @@ namespace CETWebProject.Controllers
     {
         private readonly IUserHelper _userHelper;
         private readonly IMailHelper _mailHelper;
-        private readonly IImageHelper _imageHelper;
+        private readonly IBlobHelper _blobHelper;
         private readonly IConfiguration _configuration;
         private readonly IUserTempRepository _userTempRepository;
         private readonly IWaterMeterRepository _waterMeterRepository;
 
         public AccountController(IUserHelper userHelper,
             IMailHelper mailHelper,
-            IImageHelper imageHelper,
+            IBlobHelper blobHelper,
             IConfiguration configuration,
             IUserTempRepository userTempRepository,
             IWaterMeterRepository waterMeterRepository)
         {
             _userHelper = userHelper;
             _mailHelper = mailHelper;
-            _imageHelper = imageHelper;
+            _blobHelper = blobHelper;
             _configuration = configuration;
             _userTempRepository = userTempRepository;
             _waterMeterRepository = waterMeterRepository;
@@ -234,7 +234,8 @@ namespace CETWebProject.Controllers
                 model.LastName = user.LastName;
                 model.Address = user.Address;
                 model.PhoneNumber = user.PhoneNumber;
-                model.ProfilePictureUrl = user.ProfilePicUrl;
+                model.ProfilePictureID = user.ProfilePicId;
+                model.ProfileFullPath = user.ProfilePicFullPath;
             } else
             {
                 return new NotFoundViewResult("UserNotFound");
@@ -250,10 +251,10 @@ namespace CETWebProject.Controllers
             {
                 try
                 {
-                    var path = model.ProfilePictureUrl;
+                    Guid profileId = Guid.Empty;
                     if (model.ImageFile != null && model.ImageFile.Length > 0)
                     {
-                        path = await _imageHelper.UploadImageAsync(model.ImageFile, "avatars");
+                        profileId = await _blobHelper.UploadBlobAsync(model.ImageFile, "avatars");
                     }
                     var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
                     if (user != null)
@@ -262,7 +263,8 @@ namespace CETWebProject.Controllers
                         user.LastName = model.LastName;
                         user.Address = model.Address;
                         user.PhoneNumber = model.PhoneNumber;
-                        user.ProfilePicUrl = path;
+                        user.ProfilePicId = profileId;
+                        model.ProfileFullPath = user.ProfilePicFullPath;
 
                         var response = await _userHelper.UpdateUserAsync(user);
                         if (response.Succeeded)

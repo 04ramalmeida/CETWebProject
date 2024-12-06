@@ -8,6 +8,6 @@ namespace CETWebProject.Data
     {
         Task<ICollection<UserTemp>> GetAllRequestsAsync();
 
-        
+        Task<UserTemp> FindByEmailAsync(string email);
     }
 }

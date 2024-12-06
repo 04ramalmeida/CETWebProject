@@ -15,19 +15,11 @@ namespace CETWebProject.Data.Entities
 
         public string FullName => $"{FirstName} {LastName}";
 
-        public string ProfilePicUrl { get; set; }
+        public Guid ProfilePicId { get; set; }
 
-        public string ProfilePicFullPath
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(ProfilePicUrl))
-                {
-                    return "http://aguasjalm.somee.com/img/avatar.jpg";
-                }
-                return $"http://aguasjalm.somee.com{ProfilePicUrl.Substring(1)}";
-            }
-        }
+        public string ProfilePicFullPath => ProfilePicId == Guid.Empty 
+            ? "http://aguasjalm.somee.com/img/avatar.jpg"
+            : $"https://jalmaquablob.blob.core.windows.net/avatars/{ProfilePicId}";
 
     }
 }

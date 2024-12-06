@@ -233,14 +233,8 @@ namespace CETWebProject.Controllers
             {
                 return new NotFoundViewResult("MeterRequestNotFound");
             }
-            var user = await _userHelper.GetUserByEmailAsync(request.Username);
-            if (user == null)
-            {
-                return new NotFoundViewResult("UserNotFound");
-            }
-            var userId = user.Id;
             await _waterMeterRepository.RemoveRequest(request);
-            return RedirectToAction("MeterRequests", new {id = userId});
+            return RedirectToAction("MeterRequests");
         }
     }
 }

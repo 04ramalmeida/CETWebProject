@@ -27,7 +27,9 @@ namespace CETWebProject.Models
 
         [Display(Name = "Profile Picture")]
         public IFormFile ImageFile { get; set; }
-        public string ProfilePictureUrl { get; set; }
+        public Guid ProfilePictureID { get; set; }
+
+        public string ProfileFullPath { get; set; }
 
     }
 }

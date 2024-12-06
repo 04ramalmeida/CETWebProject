@@ -22,6 +22,13 @@ namespace CETWebProject.Data
                 .ToListAsync();
         }
 
+        public async Task<UserTemp> FindByEmailAsync(string email)
+        {
+            return await _context.usersTemp
+                .Where(u => u.Username == email)
+                .FirstOrDefaultAsync();
+        }
+
         
     }
 }

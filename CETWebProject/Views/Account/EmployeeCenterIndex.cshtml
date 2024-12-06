@@ -10,6 +10,9 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.ProfileFullPath)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
@@ -30,6 +33,9 @@
         @foreach (var item in Model)
         {
             <tr>
+                <td>
+                    <img src="@Url.Content(item.ProfileFullPath)" alt="Profile Picture" style="width:100px;height:100px;max-width:100%; height:auto" />
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
