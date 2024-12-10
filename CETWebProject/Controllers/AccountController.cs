@@ -513,6 +513,7 @@ namespace CETWebProject.Controllers
         public async Task<IActionResult> AcceptUserRequest(int id)
         {
             var request = await _userTempRepository.GetByIdAsync(id);
+            request.Username = request.Username.Replace("\n","");
             if (request == null)
             {
                 return new NotFoundViewResult("UserRequestNotFound");
