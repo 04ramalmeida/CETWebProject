@@ -1,0 +1,30 @@
+
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Debug",
+      "System": "Information",
+      "Microsoft": "Information"
+    }
+  },
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=Aqua;Trusted_Connection=True;" // SQL Server LocalDB connection string. This application uses SQL Server. Replace if needed.
+  },
+  "Token": {
+    "Key": "key", // Insert a randomized string here
+    "Issuer": "localhost",
+    "Audience": "users"
+  },
+  "Mail": {
+    // The web application uses MimeKit to send mail to the user to confirm account creation, password recovery.
+    // Fill the necessary credentials below. 
+    "NameFrom": "Admin Mail",
+    "From": "admin@mail.com",
+    "Smtp": "smtp.server.com", // SMTP Server name
+    "Port": "587",
+    "Password": "password"
+  },
+  "Blob": {
+    "ConnectionString" : "connectionstring" // Replace this string with a connection string to an Azure Storage Account. This application uses blobs.
+  }
+}
