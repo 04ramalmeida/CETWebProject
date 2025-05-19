@@ -34,5 +34,5 @@ Under Individual components:
 ![Select Data sources for SQL Server support and SQL Server Express 2019 LocalDB](https://i.imgur.com/ROUBzh6.png)
 3. [Clone the repository using Visual Studio](https://learn.microsoft.com/en-us/visualstudio/version-control/git-clone-repository?view=vs-2022)
 4. Once you open the project, create a appsettings.json file based on the example file.
-5. 
+
 [Mobile app](https://github.com/04ramalmeida/AquaApp)
